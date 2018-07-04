@@ -1,0 +1,23 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "ce1572aa6692a8caf4895d6a9855c6e3cd8ca7798a370705925f04b2fafc811a"
+        },
+        "pipfile-spec": 6,
+        "requires": {},
+        "sources": [
+            {
+                "name": "pypi",
+                "url": "https://pypi.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "ttgn.pokedex": {
+            "editable": true,
+            "path": "."
+        }
+    },
+    "develop": {}
+}
