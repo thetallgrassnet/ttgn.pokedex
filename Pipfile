@@ -7,3 +7,6 @@ name = "pypi"
 "ttgn.pokedex" = {editable = true, path = "."}
 
 [dev-packages]
+importmagic = "*"
+pylint = "*"
+yapf = "*"
