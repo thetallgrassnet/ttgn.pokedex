@@ -22,7 +22,7 @@ class Pokedex:
             uri = 'sqlite:///{}'.format(os.path.join(path, 'pokedex.sqlite3'))
 
         engine = sqlalchemy.create_engine(uri)
-        self._session = sqlalchemy.orm.sessionmaker(bind=engine)
+        self._Session = sqlalchemy.orm.sessionmaker(bind=engine)
 
     def query(self, *args, **kwargs):
         """Perform a single query against the database."""
@@ -36,7 +36,7 @@ class Pokedex:
         This method should only be used in advanced cases where a series of
         operations need to be treated as a discrete transaction, e.g. running
         multiple select queries in building a single HTTP response."""
-        session = self._session()
+        session = self._Session()
         try:
             yield session
             session.commit()
