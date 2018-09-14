@@ -6,14 +6,40 @@ A database of Pokémon information.
 
 ### Requirements
 
- * Python 3.5+
- * Pipenv
+ * Python 3.4+
+ * Pip
 
 ### Setup
 
 ```bash
-pipenv install
-pipenv run python
+python3 -m venv ./venv
+. venv/bin/activate
+pip install -e .[development,testing]
+```
+
+## Testing
+
+### Additional requirements
+
+ * Pyenv
+   
+### Setup
+
+```bash
+pyenv install 3.4.9 3.5.3 3.6.6 3.7.0
+pyenv local 3.4.9 3.5.3 3.6.6 3.7.0
+```
+
+### Running tests
+
+```bash
+tox
+```
+
+If a new dependency was added to `requirements.txt`:
+
+```bash
+tox -r
 ```
 
 ## Usage
