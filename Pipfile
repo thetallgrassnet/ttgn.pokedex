@@ -4,9 +4,4 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-"ttgn.pokedex" = {editable = true, path = "."}
-
-[dev-packages]
-importmagic = "*"
-pylint = "*"
-yapf = "*"
+"ttgn.pokedex" = {editable = true, path = ".", extras = ["development", "testing"]}
