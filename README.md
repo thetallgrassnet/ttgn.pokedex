@@ -1,5 +1,7 @@
 # ttgn.pokedex
 
+[![Build Status](https://travis-ci.org/thetallgrassnet/ttgn.pokedex.svg?branch=master)](https://travis-ci.org/thetallgrassnet/ttgn.pokedex)
+
 A database of Pokémon information.
 
 ## Development
