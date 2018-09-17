@@ -1,6 +1,7 @@
 # ttgn.pokedex
 
 [![Build Status](https://travis-ci.org/thetallgrassnet/ttgn.pokedex.svg?branch=master)](https://travis-ci.org/thetallgrassnet/ttgn.pokedex)
+[![Coverage Status](https://coveralls.io/repos/github/thetallgrassnet/ttgn.pokedex/badge.svg?branch=master)](https://coveralls.io/github/thetallgrassnet/ttgn.pokedex?branch=master)
 
 A database of Pokémon information.
 
