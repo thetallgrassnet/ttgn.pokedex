@@ -1,5 +1,6 @@
 """Handles database connection and session management for Pokédex instances."""
 import contextlib
+import logging
 import os
 
 import sqlalchemy.orm
@@ -9,7 +10,7 @@ import ttgn
 class Pokedex:
     """Wrapper for the SQLAlchemy database engine and session object."""
 
-    def __init__(self, uri=None):
+    def __init__(self, uri=None, debug=False):
         """Initialize the database if necessary, and create the engine.
 
         Args:
@@ -17,11 +18,15 @@ class Pokedex:
                 disk SQLite database ``pokedex.sqlite`` in the root directory
                 of the Pokédex project.
         """
+        self.debug = debug
+        self.logger = logging.getLogger(__name__)
+
         if uri is None:
             path = os.path.realpath(os.path.join(ttgn.__path__[0], '..'))
             uri = 'sqlite:///{}'.format(os.path.join(path, 'pokedex.sqlite3'))
 
-        engine = sqlalchemy.create_engine(uri)
+        self.logger.info('Using Pokédex database at {}'.format(uri))
+        engine = sqlalchemy.create_engine(uri, echo=self.debug)
         self._Session = sqlalchemy.orm.sessionmaker(bind=engine)
 
     def query(self, *args, **kwargs):
