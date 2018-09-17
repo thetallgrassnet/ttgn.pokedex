@@ -1,7 +1,9 @@
 from __future__ import with_statement
+
+from logging.config import fileConfig
+
 from alembic import context
 from sqlalchemy import engine_from_config, pool
-from logging.config import fileConfig
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -35,12 +37,18 @@ def run_migrations_offline():
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
-    context.configure(
-        url=url, target_metadata=target_metadata, literal_binds=True)
+    url = context.get_x_argument(as_dictionary=True).get(
+        'sqlalchemy.url', None)
 
-    with context.begin_transaction():
-        context.run_migrations()
+    if url:
+        context.configure(
+            url=url, target_metadata=target_metadata, literal_binds=True)
+
+        with context.begin_transaction():
+            context.run_migrations()
+    else:
+        raise RuntimeError(
+            'No database URL provided, pass one with -x sqlalchemy.url=')
 
 
 def run_migrations_online():
@@ -50,19 +58,30 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section),
-        prefix='sqlalchemy.',
-        poolclass=pool.NullPool)
+    connectable = config.attributes.get('connectable', None)
+
+    if connectable is None:
+        ini_section = config.get_section(config.config_ini_section)
+
+        sqlalchemy_url = context.get_x_argument(as_dictionary=True).get(
+            'sqlalchemy.url', None)
+
+        if sqlalchemy_url:
+            ini_section['sqlalchemy.url'] = sqlalchemy_url
+
+            connectable = engine_from_config(
+                ini_section, prefix='sqlalchemy.', poolclass=pool.NullPool)
+        else:
+            raise RuntimeError(
+                'No database URL provided, pass one with -x sqlalchemy.url=')
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection,
-            target_metadata=target_metadata
-        )
+            connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()
+
 
 if context.is_offline_mode():
     run_migrations_offline()
