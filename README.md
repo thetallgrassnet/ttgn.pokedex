@@ -20,6 +20,13 @@ python3 -m venv ./venv
 pip install -e .[development,testing]
 ```
 
+Or with Pipenv (recommended):
+
+```bash
+pipenv install
+pipenv run python
+```
+
 ## Testing
 
 ### Additional requirements
@@ -29,11 +36,13 @@ pip install -e .[development,testing]
 ### Setup
 
 ```bash
-pyenv install 3.4.9 3.5.3 3.6.6 3.7.0
-pyenv local 3.4.9 3.5.3 3.6.6 3.7.0
+pyenv install 3.7.0 3.4.9 3.5.6 3.6.6
+pyenv local 3.7.0 3.4.9 3.5.6 3.6.6
 ```
 
 ### Running tests
+
+(Prefix commands with `pipenv run` if using Pipenv.)
 
 ```bash
 tox
