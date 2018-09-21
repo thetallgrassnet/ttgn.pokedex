@@ -1,6 +1,3 @@
-from ttgn.pokedex.utils import import_string
-
-
 def if_x_argument(arg, default):
     from alembic import context
     return context.get_x_argument(as_dictionary=True).get(arg, default)
@@ -84,4 +81,6 @@ def _perform_data_migration(model, data):
 
 
 def _import_model(model_path):
+    from ttgn.pokedex.utils import import_string
+
     return import_string('ttgn.pokedex.models.{}'.format(model_path))
