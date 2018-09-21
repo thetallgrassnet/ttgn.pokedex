@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/thetallgrassnet/ttgn.pokedex.svg?branch=master)](https://travis-ci.org/thetallgrassnet/ttgn.pokedex)
 [![Coverage Status](https://coveralls.io/repos/github/thetallgrassnet/ttgn.pokedex/badge.svg?branch=master)](https://coveralls.io/github/thetallgrassnet/ttgn.pokedex?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/1036c05a50abb42d3335/maintainability)](https://codeclimate.com/github/thetallgrassnet/ttgn.pokedex/maintainability)
 
 A database of Pokémon information.
 
@@ -57,8 +58,23 @@ tox -r
 ## Usage
 
 ```python
-import ttgn.pokedex
-pokedex = ttgn.pokedex.Pokedex("postgres://user:pass@host:port/db")
+from ttgn.pokedex import Pokedex
+from ttgn.pokedex.models.versions import Version
+pokedex = Pokedex("postgres://user:pass@host:port/db")
+red = pokedex.query(Version).where(Version.name == 'Red')
+```
+
+The database will be initialized or migrated when the Pokédex is instantiated.
+One Pokédex instance should be shared for the lifetime of the running
+application that uses it, with operations either using the `pokedex.query`
+method to wrap individual `SELECT` queries in transactions, or using the
+`pokedex.session_scope` method to wrap multiple queries in a transactional
+scope:
+
+```python
+with pokedex.session_scope() as session:
+    red = session.query(Version).where(Version.name == 'Red')
+    charmander = session.query(Species).where(Species.name == 'Charmander')
 ```
 
 ## Copyright
