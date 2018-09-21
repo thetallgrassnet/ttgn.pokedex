@@ -6,8 +6,8 @@ Create Date: 2018-09-19 12:55:45.996673
 
 """
 import sqlalchemy as sa
-import ttgn.pokedex.utils
 from alembic import context, op
+from ttgn.pokedex.migrations.data import if_x_argument, load_data_migrations
 
 # revision identifiers, used by Alembic.
 revision = '763b433aaf4a'
@@ -17,18 +17,18 @@ depends_on = None
 
 
 def upgrade():
-    if not ttgn.pokedex.utils.if_x_argument('no-schema', False):
+    if not if_x_argument('no-schema', False):
         schema_upgrade()
 
-    if not ttgn.pokedex.utils.if_x_argument('no-data', False):
+    if not if_x_argument('no-data', False):
         data_upgrade()
 
 
 def downgrade():
-    if not ttgn.pokedex.utils.if_x_argument('no-data', False):
+    if not if_x_argument('no-data', False):
         data_downgrade()
 
-    if not ttgn.pokedex.utils.if_x_argument('no-schema', False):
+    if not if_x_argument('no-schema', False):
         schema_downgrade()
 
 
@@ -48,8 +48,7 @@ def schema_downgrade():
 
 def data_upgrade():
     try:
-        ttgn.pokedex.utils.load_data_migration_if_exists(
-            '763b433aaf4a', 'upgrade')
+        load_data_migrations('763b433aaf4a', 'upgrade')
     except Exception:
         data_downgrade()
         schema_downgrade()
@@ -57,5 +56,4 @@ def data_upgrade():
 
 
 def data_downgrade():
-    ttgn.pokedex.utils.load_data_migration_if_exists('763b433aaf4a',
-                                                     'downgrade')
+    load_data_migrations('763b433aaf4a', 'downgrade')

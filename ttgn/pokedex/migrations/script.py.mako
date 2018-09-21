@@ -5,9 +5,9 @@ Revises: ${down_revision | comma,n}
 Create Date: ${create_date}
 
 """
-from alembic import context, op
 import sqlalchemy as sa
-import ttgn.pokedex.utils
+from alembic import context, op
+from ttgn.pokedex.migrations.data import if_x_argument, load_data_migrations
 ${imports if imports else ""}
 
 # revision identifiers, used by Alembic.
@@ -18,18 +18,18 @@ depends_on = ${repr(depends_on)}
 
 
 def upgrade():
-    if not ttgn.pokedex.utils.if_x_argument('no-schema', False):
+    if not if_x_argument('no-schema', False):
         schema_upgrade()
 
-    if not ttgn.pokedex.utils.if_x_argument('no-data', False):
+    if not if_x_argument('no-data', False):
         data_upgrade()
 
 
 def downgrade():
-    if not ttgn.pokedex.utils.if_x_argument('no-data', False):
+    if not if_x_argument('no-data', False):
         data_downgrade()
 
-    if not ttgn.pokedex.utils.if_x_argument('no-schema', False):
+    if not if_x_argument('no-schema', False):
         schema_downgrade()
 
 
@@ -43,7 +43,7 @@ def schema_downgrade():
 
 def data_upgrade():
     try:
-        ttgn.pokedex.utils.load_data_migration_if_exists(${repr(up_revision)}, 'upgrade')
+        load_data_migrations(${repr(up_revision)}, 'upgrade')
     except Exception:
         data_downgrade()
         schema_downgrade()
@@ -51,4 +51,4 @@ def data_upgrade():
 
 
 def data_downgrade():
-    ttgn.pokedex.utils.load_data_migration_if_exists(${repr(up_revision)}, 'downgrade')
+    load_data_migrations(${repr(up_revision)}, 'downgrade')

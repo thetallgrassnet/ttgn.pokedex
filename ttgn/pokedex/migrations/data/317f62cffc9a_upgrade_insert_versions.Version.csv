@@ -1,0 +1,29 @@
+id,version_group_id,name,acronym
+1,1,Red,R
+2,1,Blue,B
+3,2,Yellow,Ye
+4,3,Gold,G
+5,3,Silver,S
+6,4,Crystal,C
+7,5,Ruby,Ru
+8,5,Sapphire,Sa
+9,6,FireRed,FR
+10,6,LeafGreen,LG
+11,7,Emerald,E
+12,8,Diamond,D
+13,8,Pearl,P
+14,9,Platinum,Pt
+15,10,HeartGold,HG
+16,10,SoulSilver,SS
+17,11,Black,K
+18,11,White,W
+19,12,Black 2,K2
+20,12,White 2,W2
+21,13,X,X
+22,13,Y,Y
+23,14,Omega Ruby,OR
+24,14,Alpha Sapphire,AS
+25,15,Sun,N
+26,15,Moon,M
+27,16,Ultra Sun,UN
+28,16,Ultra Moon,UM
