@@ -1,11 +1,11 @@
 """Handles database connection and session management for Pokédex instances."""
-import contextlib
 import logging
 import os
+from contextlib import contextmanager
 
-import alembic.command
-import alembic.config
-import sqlalchemy.orm
+from alembic import command, config
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 base_path = os.path.realpath(
     os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -26,6 +26,8 @@ class Pokedex:
             migrate (bool): If True, automatically run database migrations on
                 instantiation.
             debug (bool): If True, output detailed SQLAlchemy debug logging.
+                Mostly for development, and only used if an existing engine
+                was not passed in with the ``engine`` parameter.
         """
         self.debug = debug
         self.logger = logging.getLogger(__name__)
@@ -36,24 +38,23 @@ class Pokedex:
                     os.path.join(base_path, 'pokedex.sqlite3'))
 
             self.logger.info('Using Pokédex database at {}'.format(uri))
-            engine = sqlalchemy.create_engine(uri, echo=self.debug)
+            engine = create_engine(uri, echo=self.debug)
 
-        self._Session = sqlalchemy.orm.sessionmaker(bind=engine)
+        self._Session = sessionmaker(bind=engine)
 
         if migrate:
-            alembic_cfg = alembic.config.Config(
-                os.path.join(base_path, 'alembic.ini'))
+            alembic_cfg = config.Config(os.path.join(base_path, 'alembic.ini'))
             alembic_cfg.attributes['connectable'] = engine
 
             self.logger.debug('Running migrations')
-            alembic.command.upgrade(alembic_cfg, 'head')
+            command.upgrade(alembic_cfg, 'head')
 
     def query(self, *args, **kwargs):
         """Perform a single query against the database."""
         with self.session_scope() as session:
             return session.query(*args, **kwargs)
 
-    @contextlib.contextmanager
+    @contextmanager
     def session_scope(self):
         """Provide a transactional scope around a series of database operations.
 
