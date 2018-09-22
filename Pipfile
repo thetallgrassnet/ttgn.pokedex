@@ -5,6 +5,3 @@ name = "pypi"
 
 [dev-packages]
 "ttgn.pokedex" = {editable = true, path = ".", extras = ["development", "testing"]}
-
-[packages]
-"ttgn.pokedex" = {editable = true, path = ".", extras = ["development", "testing"]}
