@@ -32,14 +32,10 @@ pipenv run python
 
 ### Against a single Python version
 
+(Prefix commands with `pipenv run` if using Pipenv.)
+
 ```bash
 py.test
-```
-
-Or with Pipenv:
-
-```bash
-pipenv run py.test
 ```
 
 ### Against all supported Python versions
@@ -51,13 +47,15 @@ pipenv run py.test
 #### Setup
 
 ```bash
-pyenv install 3.7.0 3.4.9 3.5.6 3.6.6
-pyenv local 3.7.0 3.4.9 3.5.6 3.6.6
+pyenv install 3.4.9
+pyenv install 3.5.6
+pyenv install 3.6.6
+pyenv install 3.7.0
+pyenv install pypy3.5-6.0.0
+pyenv local 3.7.0 3.4.9 3.5.6 3.6.6 pypy3.5-6.0.0
 ```
 
 #### Running tests
-
-(Prefix commands with `pipenv run` if using Pipenv.)
 
 ```bash
 tox
