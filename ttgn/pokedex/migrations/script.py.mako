@@ -43,7 +43,7 @@ def schema_downgrade():
 
 def data_upgrade():
     try:
-        load_data_migrations(${repr(up_revision)}, 'upgrade')
+        load_data_migrations(revision, 'upgrade')
     except Exception:
         data_downgrade()
         schema_downgrade()
@@ -51,4 +51,4 @@ def data_upgrade():
 
 
 def data_downgrade():
-    load_data_migrations(${repr(up_revision)}, 'downgrade')
+    load_data_migrations(revision, 'downgrade')

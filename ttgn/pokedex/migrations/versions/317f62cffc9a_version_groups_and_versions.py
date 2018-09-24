@@ -65,7 +65,7 @@ def schema_downgrade():
 
 def data_upgrade():
     try:
-        load_data_migrations('317f62cffc9a', 'upgrade')
+        load_data_migrations(revision, 'upgrade')
     except Exception:
         data_downgrade()
         schema_downgrade()
@@ -73,4 +73,4 @@ def data_upgrade():
 
 
 def data_downgrade():
-    load_data_migrations('317f62cffc9a', 'downgrade')
+    load_data_migrations(revision, 'downgrade')

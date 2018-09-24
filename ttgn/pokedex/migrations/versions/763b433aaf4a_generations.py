@@ -12,7 +12,7 @@ from ttgn.pokedex.migrations.data import if_x_argument, load_data_migrations
 # revision identifiers, used by Alembic.
 revision = '763b433aaf4a'
 down_revision = None
-branch_labels = None
+branch_labels = ['ttgn.pokedex']
 depends_on = None
 
 
@@ -48,7 +48,7 @@ def schema_downgrade():
 
 def data_upgrade():
     try:
-        load_data_migrations('763b433aaf4a', 'upgrade')
+        load_data_migrations(revision, 'upgrade')
     except Exception:
         data_downgrade()
         schema_downgrade()
@@ -56,4 +56,4 @@ def data_upgrade():
 
 
 def data_downgrade():
-    load_data_migrations('763b433aaf4a', 'downgrade')
+    load_data_migrations(revision, 'downgrade')

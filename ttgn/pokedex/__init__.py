@@ -19,7 +19,7 @@ class Pokedex:
 
         Args:
             uri (str): Database connection string to use. Defaults to an on-
-                disk SQLite database ``pokedex.sqlite`` in the root directory
+                disk SQLite database ``pokedex.sqlite3`` in the root directory
                 of the Pokédex project.
             engine (sqlalchemy.engine.Engine): Existing SQLAlchemy engine to
                 use instead of the Pokédex instance creating its own.
@@ -47,7 +47,7 @@ class Pokedex:
             alembic_cfg.attributes['connectable'] = engine
 
             self.logger.debug('Running migrations')
-            command.upgrade(alembic_cfg, 'head')
+            command.upgrade(alembic_cfg, 'ttgn.pokedex@head')
 
     def query(self, *args, **kwargs):
         """Perform a single query against the database."""
