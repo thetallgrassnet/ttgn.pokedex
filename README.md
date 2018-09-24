@@ -30,18 +30,32 @@ pipenv run python
 
 ## Testing
 
-### Additional requirements
+### Against a single Python version
+
+```bash
+py.test
+```
+
+Or with Pipenv:
+
+```bash
+pipenv run py.test
+```
+
+### Against all supported Python versions
+
+#### Additional requirements
 
  * Pyenv
    
-### Setup
+#### Setup
 
 ```bash
 pyenv install 3.7.0 3.4.9 3.5.6 3.6.6
 pyenv local 3.7.0 3.4.9 3.5.6 3.6.6
 ```
 
-### Running tests
+#### Running tests
 
 (Prefix commands with `pipenv run` if using Pipenv.)
 
