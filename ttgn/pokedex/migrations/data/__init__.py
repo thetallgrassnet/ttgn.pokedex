@@ -4,12 +4,12 @@ def if_x_argument(arg, default):
 
 
 def load_data_migrations(rev, direction):
-    import pathlib
-    from ttgn.pokedex import base_path
+    import re
+    from pkg_resources import resource_listdir
 
-    data_path = pathlib.Path(base_path, 'ttgn', 'pokedex', 'migrations',
-                             'data')
-    data_migrations = data_path.glob('{}_{}_*.csv'.format(rev, direction))
+    data_migrations = filter(
+        lambda f: re.match(r'{}_{}_.*\.csv'.format(rev, direction), f),
+        resource_listdir('ttgn.pokedex', 'migrations/data'))
     data = _read_data_from_migrations(data_migrations)
 
     for model in data:
@@ -22,20 +22,23 @@ def _read_data_from_migrations(data_migrations):
     for file in data_migrations:
         import csv
         import re
+        from pkg_resources import resource_string, yield_lines
 
         match = re.match(
             r'[0-9a-f]{12}_(?:up|down)grade_'
             r'(insert|update|delete)_'
-            r'([a-z_]+\.[A-Z][A-Za-z]+).*\.csv', file.name)
+            r'([a-z_]+\.[A-Z][A-Za-z]+).*\.csv', file)
         operation = match.group(1)
         model = match.group(2)
 
         data.setdefault(model, {})[operation] = []
 
-        with file.open(newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                data[model][operation].append(row)
+        raw_data = resource_string('ttgn.pokedex',
+                                   'migrations/data/{}'.format(file))
+        reader = csv.DictReader(yield_lines(raw_data.decode('utf-8')))
+
+        for row in reader:
+            data[model][operation].append(row)
 
     return data
 

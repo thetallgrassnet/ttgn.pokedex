@@ -3,12 +3,11 @@ import logging
 import os
 from contextlib import contextmanager
 
+import pkg_resources
+
 from alembic import command, config
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-
-base_path = os.path.realpath(
-    os.path.join(os.path.dirname(__file__), '..', '..'))
 
 
 class Pokedex:
@@ -20,7 +19,7 @@ class Pokedex:
         Args:
             uri (str): Database connection string to use. Defaults to an on-
                 disk SQLite database ``pokedex.sqlite3`` in the root directory
-                of the Pokédex project.
+                of the ``ttgn.pokedex`` package.
             engine (sqlalchemy.engine.Engine): Existing SQLAlchemy engine to
                 use instead of the Pokédex instance creating its own.
             migrate (bool): If True, automatically run database migrations on
@@ -35,7 +34,8 @@ class Pokedex:
         if engine is None:
             if uri is None:
                 uri = 'sqlite:///{}'.format(
-                    os.path.join(base_path, 'pokedex.sqlite3'))
+                    pkg_resources.resource_filename(__name__,
+                                                    'pokedex.sqlite3'))
 
             self.logger.info('Using Pokédex database at {}'.format(uri))
             engine = create_engine(uri, echo=self.debug)
@@ -43,7 +43,8 @@ class Pokedex:
         self._Session = sessionmaker(bind=engine)
 
         if migrate:
-            alembic_cfg = config.Config(os.path.join(base_path, 'alembic.ini'))
+            alembic_cfg = config.Config(
+                pkg_resources.resource_filename(__name__, 'alembic.ini'))
             alembic_cfg.attributes['connectable'] = engine
 
             self.logger.debug('Running migrations')
