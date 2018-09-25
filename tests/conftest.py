@@ -1,14 +1,13 @@
 import os
 
-import pytest
-import ttgn
-import ttgn.pokedex
+from pytest import fixture
+from ttgn.pokedex import Pokedex
 
 
-@pytest.fixture(scope='session')
+@fixture(scope='session')
 def pokedex():
     path = os.path.realpath(
-        os.path.join(ttgn.__path__[0], '..', 'tests', 'pokedex_test.sqlite3'))
+        os.path.join(os.path.dirname(__file__), 'pokedex_test.sqlite3'))
     uri = 'sqlite:///{}'.format(path)
-    yield ttgn.pokedex.Pokedex(uri)
+    yield Pokedex(uri)
     os.remove(path)
