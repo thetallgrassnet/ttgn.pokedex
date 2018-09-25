@@ -7,26 +7,28 @@ import pkg_resources
 
 from alembic import command, config
 from sqlalchemy import create_engine
+from sqlalchemy.engine import Engine
 from sqlalchemy.orm import sessionmaker
+
+DEFAULT_DATABASE_URI = 'sqlite:///{}'.format(
+    pkg_resources.resource_filename(__name__, 'pokedex.sqlite3'))
 
 
 class Pokedex:
     """Wrapper for the SQLAlchemy database engine and session object."""
 
     def __init__(self,
-                 uri=None,
-                 engine=None,
+                 engine_or_uri=DEFAULT_DATABASE_URI,
                  migrate=True,
                  alembic_cfg=None,
                  debug=False):
         """Initialize the database if necessary, and create the engine.
 
         Args:
-            uri (str): Database connection string to use. Defaults to an on-
+            engine_or_uri (str|sqlalchemy.engine.Engine): Existing SQLAlchemy
+                engine or database connection string to use. Defaults to an on-
                 disk SQLite database ``pokedex.sqlite3`` in the root directory
                 of the ``ttgn.pokedex`` package.
-            engine (sqlalchemy.engine.Engine): Existing SQLAlchemy engine to
-                use instead of the Pokédex instance creating its own.
             migrate (bool): If True, automatically run database migrations on
                 instantiation.
             alembic_cfg (alembic.config.Config): Existing Alembic configuration
@@ -39,14 +41,12 @@ class Pokedex:
         self.debug = debug
         self.logger = logging.getLogger(__name__)
 
-        if engine is None:
-            if uri is None:
-                uri = 'sqlite:///{}'.format(
-                    pkg_resources.resource_filename(__name__,
-                                                    'pokedex.sqlite3'))
-
-            self.logger.info('Using Pokédex database at {}'.format(uri))
-            engine = create_engine(uri, echo=self.debug)
+        if isinstance(engine_or_uri, Engine):
+            engine = engine_or_uri
+        else:
+            self.logger.info(
+                'Using Pokédex database at {}'.format(engine_or_uri))
+            engine = create_engine(engine_or_uri, echo=self.debug)
 
         self._Session = sessionmaker(bind=engine)
 

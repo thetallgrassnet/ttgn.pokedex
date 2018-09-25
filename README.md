@@ -94,11 +94,11 @@ with pokedex.session_scope() as session:
 If you want to use the Pokédex in a project that already uses SQLAlchemy, and
 want the Pokédex tables to belong to the same database as your project's tables,
 you can pass a `sqlalchemy.engine.Engine` instance to the `Pokedex` constructor
-with the `engine` parameter:
+instead of a database connection string:
 
 ```python
 engine = create_engine("postgres://user:pass@host:port/your_project_db")
-pokedex = Pokedex(engine=engine)
+pokedex = Pokedex(engine)
 ```
 
 ### Alembic integration
