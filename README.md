@@ -89,6 +89,41 @@ with pokedex.session_scope() as session:
     charmander = session.query(Species).where(Species.name == 'Charmander')
 ```
 
+### SQLAlchemy integration
+
+If you want to use the Pokédex in a project that already uses SQLAlchemy, and
+want the Pokédex tables to belong to the same database as your project's tables,
+you can pass a `sqlalchemy.engine.Engine` instance to the `Pokedex` constructor
+with the `engine` parameter:
+
+```python
+engine = create_engine("postgres://user:pass@host:port/your_project_db")
+pokedex = Pokedex(engine=engine)
+```
+
+### Alembic integration
+
+If you want to use the Pokédex in a project that uses Alembic, you can add the
+Pokédex migrations to your existing `alembic.ini` file. This will allow your
+migrations to depend on Pokédex migrations, and will run the Pokédex migrations
+alongside your own with `alembic upgrade heads`. To do this, add the resource
+identifier for the Pokédex migration version location to [`version_locations` in
+your
+`alembic.ini`](http://alembic.zzzcomputing.com/en/latest/branches.html#setting-up-multiple-version-directories):
+
+```ini
+# version location specification; this defaults
+# to foo/versions.  When using multiple version
+# directories, initial revisions must be specified with --version-path
+version_locations = your/alembic/versions ttgn.pokedex:migrations/versions
+```
+
+You can then either load and pass your project's Alembic configuration to the
+`Pokedex` constructor with the `alembic_cfg` parameter to run the Pokédex
+migrations with your own project's configuration at instantiation, or run the
+migrations yourself and disable automatic migrations by passing `migrate=False`
+to the constructor.
+
 ## Copyright
 
 Copyright © 2018 Jesse B. Hannah. Licensed under the terms of the MIT License
