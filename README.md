@@ -24,7 +24,7 @@ pip install -e .[development,testing]
 Or with Pipenv (recommended):
 
 ```bash
-pipenv install
+pipenv install -d
 pipenv run python
 ```
 
