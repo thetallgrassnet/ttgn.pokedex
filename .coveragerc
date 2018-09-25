@@ -1,0 +1,2 @@
+[run]
+omit = ttgn/pokedex/migrations/*
