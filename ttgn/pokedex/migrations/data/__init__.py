@@ -38,11 +38,14 @@ def _read_data_from_migrations(data_migrations):
         reader = csv.DictReader(yield_lines(raw_data.decode('utf-8')))
 
         for row in reader:
-            data[model][operation].append(
-                {k: None if v == '' else v
-                 for k, v in row.items()})
+            data[model][operation].append(_noneify_row(row))
 
     return data
+
+
+def _noneify_row(row):
+    """Interpret empty strings in a CSV row as None."""
+    return {k: None if v == '' else v for k, v in row.items()}
 
 
 def _perform_data_migration_insert(table, rows):
