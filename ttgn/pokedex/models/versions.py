@@ -14,7 +14,7 @@ class VersionGroup(Base):
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
     generation_id = sqlalchemy.Column(
         sqlalchemy.Integer,
-        sqlalchemy.ForeignKey(Generation.__table__.columns.id),
+        sqlalchemy.ForeignKey(Generation.id),
         nullable=False)
 
     generation = sqlalchemy.orm.relationship(
@@ -28,7 +28,7 @@ class Version(Base):
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
     version_group_id = sqlalchemy.Column(
         sqlalchemy.Integer,
-        sqlalchemy.ForeignKey(VersionGroup.__table__.columns.id),
+        sqlalchemy.ForeignKey(VersionGroup.id),
         nullable=False)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=False, unique=True)
     acronym = sqlalchemy.Column(
