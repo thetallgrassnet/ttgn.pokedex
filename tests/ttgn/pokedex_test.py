@@ -23,7 +23,7 @@ class TestPokedex(object):
 
     def test_init_migrate_true(self, pokedex):
         query = pokedex.query('version_num from alembic_version')
-        assert query.all() == [('317f62cffc9a', )]
+        assert query.all() == [('088903c1ed2a', )]
 
     def test_query(self, pokedex):
         query = pokedex.query('1')
