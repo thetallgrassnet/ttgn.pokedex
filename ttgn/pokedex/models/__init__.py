@@ -1,2 +1,1 @@
-from . import versions
-from .base import Base
+from . import base, versions
