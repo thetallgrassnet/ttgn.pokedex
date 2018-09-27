@@ -38,7 +38,9 @@ def _read_data_from_migrations(data_migrations):
         reader = csv.DictReader(yield_lines(raw_data.decode('utf-8')))
 
         for row in reader:
-            data[model][operation].append(row)
+            data[model][operation].append(
+                {k: None if v == '' else v
+                 for k, v in row.items()})
 
     return data
 

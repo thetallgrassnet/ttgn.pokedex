@@ -7,6 +7,7 @@ Create Date: 2018-09-20 07:27:20.649971
 """
 import sqlalchemy as sa
 from alembic import context, op
+
 from ttgn.pokedex.migrations.data import if_x_argument, load_data_migrations
 
 # revision identifiers, used by Alembic.
