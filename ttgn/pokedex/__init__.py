@@ -36,7 +36,7 @@ class Pokedex:
         self.logger = logging.getLogger(__name__)
 
         engine = self._get_database_engine(engine_or_uri)
-        self._Session = sessionmaker(bind=engine)
+        self._session = sessionmaker(bind=engine)
 
         if migrate:
             alembic_cfg = config.Config(
@@ -61,7 +61,7 @@ class Pokedex:
         This method should only be used in advanced cases where a series of
         operations need to be treated as a discrete transaction, e.g. running
         multiple select queries in building a single HTTP response."""
-        session = self._Session()
+        session = self._session()
         try:
             yield session
             session.commit()
@@ -79,5 +79,5 @@ class Pokedex:
             pkg_resources.resource_filename(
                 __name__,
                 'pokedex.sqlite3')) if engine_or_uri is None else engine_or_uri
-        self.logger.info('Using Pokédex database at {}'.format(uri))
+        self.logger.info('Using Pokédex database at %s', uri)
         return create_engine(uri, echo=self.debug)

@@ -1,9 +1,16 @@
+"""Utility methods for data migration processing."""
+
+
 def if_x_argument(arg, default):
+    """Evaluates if a given x argument was passed to Alembic, using the given
+    default if not."""
     from alembic import context
     return context.get_x_argument(as_dictionary=True).get(arg, default)
 
 
 def load_data_migrations(rev, direction):
+    """Loads and performs data migrations for a given revision and
+    direction."""
     import re
     from pkg_resources import resource_listdir
 
@@ -59,11 +66,11 @@ def _perform_data_migration_update(table, rows):
     from alembic.op import execute
     from sqlalchemy.sql.expression import bindparam
 
-    for keys, rows_ in groupby(rows, key=lambda r: r.keys()):
+    for keys, grouped_rows in groupby(rows, key=lambda r: r.keys()):
         stmt = table.update().where(table.c.id == bindparam('id')).values(
             {key: bindparam(key)
              for key in keys if not key == 'id'})
-        execute(stmt, rows)
+        execute(stmt, grouped_rows)
 
 
 def _perform_data_migration_delete(table, rows):
