@@ -6,7 +6,6 @@ from .base import Base
 
 class Generation(Base):
     """Model representing a core-series game generation."""
-    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
 
     def __str__(self):
         return 'Generation {}'.format(self.id)
@@ -15,7 +14,6 @@ class Generation(Base):
 class VersionGroup(Base):
     """Model representing a group of versions within a core-series
     generation."""
-    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
     generation_id = sqlalchemy.Column(
         sqlalchemy.Integer,
         sqlalchemy.ForeignKey(Generation.id),
@@ -30,7 +28,6 @@ class VersionGroup(Base):
 
 class Version(Base):
     """Model representing a core-series game version."""
-    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
     version_group_id = sqlalchemy.Column(
         sqlalchemy.Integer,
         sqlalchemy.ForeignKey(VersionGroup.id),

@@ -7,6 +7,7 @@ import ttgn.pokedex.utils
 
 class Base():
     """Base class for SQLAlchemy declarative base."""
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
 
     # pylint: disable=no-self-argument
     @declarative.declared_attr
@@ -24,7 +25,6 @@ Base = declarative.declarative_base(cls=Base)
 class Language(Base):
     """Model representing an IANA language subtag for translation
     identification."""
-    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
     order = sqlalchemy.Column(sqlalchemy.Integer, nullable=False, unique=True)
     language = sqlalchemy.Column(sqlalchemy.String(3), nullable=False)
     script = sqlalchemy.Column(sqlalchemy.String(8))
