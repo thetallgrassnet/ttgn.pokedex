@@ -18,17 +18,22 @@ def belongs_to(target, name=None, backref=None, nullable=False):
 
     def decorator(cls):
         _name = snake_case(target.__name__) if name is None else name
+        _name_id = '{}_id'.format(_name)
         _backref = cls.__pluralname__ if backref is None else backref
 
         setattr(
-            cls, '{}_id'.format(_name),
+            cls, _name_id,
             sqlalchemy.Column(
                 sqlalchemy.Integer,
                 sqlalchemy.ForeignKey(target.id),
                 nullable=nullable))
 
-        setattr(cls, _name,
-                sqlalchemy.orm.relationship(target, backref=_backref))
+        setattr(
+            cls, _name,
+            sqlalchemy.orm.relationship(
+                target,
+                backref=_backref,
+                foreign_keys=[getattr(cls, _name_id)]))
 
         return cls
 
