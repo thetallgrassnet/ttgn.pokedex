@@ -10,7 +10,8 @@ class TestPokedex:
         """Test the ttgn.pokedex.Pokedex.__init__() method."""
 
         def test_init_engine(self):
-            """Test providing a SQLAlchemy engine to the Pokedex constructor."""
+            """Test providing a SQLAlchemy engine to the Pokedex
+            constructor."""
             import os
 
             from sqlalchemy import create_engine

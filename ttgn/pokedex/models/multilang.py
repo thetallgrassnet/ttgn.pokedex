@@ -22,12 +22,15 @@ class Language(Base):
 
     @hybrid_property
     def subtag(self):
+        """Combines the subtag components into a valid IANA language subtag."""
         return '-'.join(
             k for k in [self.language, self.script, self.region, self.variant]
             if k is not None)
 
+    # pylint: disable=no-self-argument,singleton-comparison
     @subtag.expression
     def subtag(cls):
+        """Enables querying the Language model by subtag values."""
         return cls.language + \
             case([(cls.script != None, '-' + cls.script)], else_='') + \
             case([(cls.region != None, '-' + cls.region)], else_='') + \
@@ -39,8 +42,8 @@ class Language(Base):
 
 def with_translations(**kwargs):
     """Decorator that creates a translation table for the decorated model with
-    the given columns, and creates relationships and association proxies for the
-    translated columns."""
+    the given columns, and creates relationships and association proxies for
+    the translated columns."""
 
     def decorator(cls):
         translations = type('{}Translation'.format(cls.__name__), (Base, ), {})

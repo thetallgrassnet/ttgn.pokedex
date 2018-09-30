@@ -17,8 +17,8 @@ class TestLanguage:
 
     def test_str(self, pokedex):
         """Test that the subtag is returned."""
-        cn = pokedex.query(Language).get(12)
-        assert str(cn) == 'cmn-latn-cn-pinyin'
+        cmn = pokedex.query(Language).get(12)
+        assert str(cmn) == 'cmn-latn-cn-pinyin'
 
     class TestSubtag:
         """Test the ttgn.pokedex.models.multilang.Language.subtag
@@ -27,26 +27,27 @@ class TestLanguage:
         def test_subtag_language_only(self, pokedex):
             """Test that the correct subtag with only the language identifier is
             returned."""
-            en = pokedex.query(Language).get(5)
-            assert en.subtag == 'en'
+            en_ = pokedex.query(Language).get(5)
+            assert en_.subtag == 'en'
 
         def test_subtag_concatenated(self, pokedex):
             """Test that the concatenated subtag is returned."""
-            ja = pokedex.query(Language).get(4)
-            assert ja.subtag == 'ja-latn-x-official'
+            ja_latn_x_official = pokedex.query(Language).get(4)
+            assert ja_latn_x_official.subtag == 'ja-latn-x-official'
 
         def test_subtag_query(self, pokedex):
             """Test querying by subtag."""
-            fr = pokedex.query(Language).filter(
+            fr_fr = pokedex.query(Language).filter(
                 Language.subtag == 'fr-fr').one()
-            assert fr.id == 14
+            assert fr_fr.id == 14
 
     class TestTranslations:
         """Test the ttgn.pokedex.models.multilang.Language.translations
         relationship."""
 
         def test_migration(self, pokedex):
-            """Test that the data migrations are run correctly for the model."""
+            """Test that the data migrations are run correctly for the
+            model."""
             query = pokedex.query(LanguageTranslation)
             assert query.count() == 129
 
@@ -55,8 +56,10 @@ class TestLanguage:
         proxy."""
 
         def test_name(self, pokedex):
-            en = pokedex.query(Language).get(5)
-            assert set(en.name) == set([
+            """Tests that translated names are returned as the name
+            property."""
+            en_ = pokedex.query(Language).get(5)
+            assert set(en_.name) == set([
                 '英語', 'English', '영어', '英语', '英語', 'Anglaise', 'Inglés',
                 'Inglese', 'Englische'
             ])
@@ -66,10 +69,14 @@ class TestWithTranslations:
     """Test the ttgn.pokedex.models.multilang.with_translations decorator."""
 
     def test_with_translation_type_error(self):
+        """Tests that all arguments to with_translation must be instances of
+        sqlalchemy.Column."""
+
         class TestModel(Base):
+            """Test model."""
             pass
 
         with pytest.raises(TypeError) as error:
             with_translations(name='foobar')(TestModel)
-        assert 'name expected to be a sqlalchemy.Column, was foobar' == str(
-            error.value)
+        assert str(error.value) == \
+            'name expected to be a sqlalchemy.Column, was foobar'

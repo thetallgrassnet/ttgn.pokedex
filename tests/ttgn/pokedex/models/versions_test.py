@@ -25,7 +25,8 @@ class TestGeneration:
         assert query.count() == 3
 
     def test_str(self, pokedex):
-        """Test the ttgn.pokedex.models.versions.Generation.__str__() method."""
+        """Test the ttgn.pokedex.models.versions.Generation.__str__()
+        method."""
         generation = pokedex.query(versions.Generation).get(1)
         assert str(generation) == 'Generation 1'
 
