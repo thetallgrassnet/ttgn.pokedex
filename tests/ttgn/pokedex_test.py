@@ -34,7 +34,7 @@ class TestPokedex:
             """Test that all migrations are run at instantiation and that the
             database is at the latest revision."""
             query = pokedex.query('version_num from alembic_version')
-            assert query.all() == [('088903c1ed2a', )]
+            assert query.all() == [('1888d425f419', )]
 
     class TestQuery:
         """Test the ttgn.pokedex.Pokedex.query() method."""

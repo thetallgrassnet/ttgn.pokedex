@@ -1,0 +1,130 @@
+id,language_id,local_language_id,name
+1,1,1,日本語
+2,1,5,Japanese
+3,1,6,일본어
+4,1,9,日语
+5,1,10,日語
+6,1,14,Japonais
+7,1,15,Japonés
+8,1,16,Giapponese
+9,1,17,Japanisch
+10,2,1,日本語（ひらがな・カタカナ）
+11,2,5,Japanese (Hiragana/Katakana)
+12,2,6,일본어 (히라가나·가타카나)
+13,2,9,日语（平假名·片假名）
+14,2,10,日語（平假名·片假名）
+15,2,14,Japonais (hiragana/katakana)
+16,2,15,Japonés (hiragana/katakana)
+17,2,16,Giapponese (hiragana/katakana)
+18,2,17,Japanisch (Hiragana/Katakana)
+19,3,1,日本語（ローマ字）
+20,3,5,Japanese (Romaji)
+21,3,6,일본어 (로마자)
+22,3,9,日语（罗马字）
+23,3,10,日語（羅馬字）
+24,3,14,Japonais (romaji)
+25,3,15,Japonés (romaji)
+26,3,16,Giapponese (romaji)
+27,3,17,Japanisch (Romaji)
+28,4,1,日本語（正式ローマ字）
+29,4,5,Japanese (Official Romaji)
+30,4,6,일본어 (정식 로마자)
+31,4,9,日语（正式罗马字）
+32,4,10,日語（正式羅馬字）
+33,4,14,Japonais (romaji officiel)
+34,4,15,Japonés (romaji oficial)
+35,4,16,Giapponese (romaji ufficiale)
+36,4,17,Japanisch (offizieller Romaji)
+37,5,1,英語
+38,5,5,English
+39,5,6,영어
+40,5,9,英语
+41,5,10,英語
+42,5,14,Anglaise
+43,5,15,Inglés
+44,5,16,Inglese
+45,5,17,Englische
+46,6,1,韓国語
+47,6,5,Korean
+48,6,6,한국어
+49,6,9,朝鲜语
+50,6,10,朝鮮語
+51,6,14,Coréenne
+52,6,15,Koreano
+53,6,16,Coreana
+54,6,17,Koreanische
+55,7,1,韓国語（ローマ字）
+56,7,5,Korean (Romaja)
+57,7,6,한국어 (로마자)
+58,7,9,朝鲜语（罗马字）
+59,7,10,朝鮮語（羅馬字）
+60,7,14,Coréenne (romaja)
+61,7,15,Koreano (romaja)
+62,7,16,Coreana (romaja)
+63,7,17,Koreanische (Romaja)
+64,8,1,韓国語（正式ローマ字）
+65,8,5,Korean (Official Romaja)
+66,8,6,한국어 (정식 로마자)
+67,8,9,朝鲜语（正式罗马字）
+68,8,10,朝鮮語（正式羅馬字）
+69,8,14,Coréenne (romaja officiel)
+70,8,15,Koreano (romaja oficial)
+71,8,16,Coreana (romaja ufficiale)
+72,8,17,Koreanische (offizieller Romaja)
+73,9,1,中国語（簡体字）
+74,9,5,Chinese (Simplified)
+75,9,6,중국어 (간체)
+76,9,9,中文（简体）
+77,9,10,中文（簡體）
+78,9,14,Chinois (simplifié)
+79,9,15,Chino (simplificado)
+80,9,16,Cinese (semplificato)
+81,9,17,Chinesisch (vereinfacht)
+82,10,1,中国語（繁体字）
+83,10,5,Chinese (Traditional)
+84,10,6,중국어 (번체)
+85,10,9,中文（繁体）
+86,10,10,中文（繁體）
+87,10,14,Chinois (traditionnel)
+88,10,15,Chino (tradicional)
+89,10,16,Cinese (tradizional)
+90,10,17,Chinesisch (traditionell)
+91,11,5,Mandarin (Taiwan) Pinyin
+92,12,5,Mandarin (China) Pinyin
+93,13,5,Cantonese (Yale Romanization)
+94,14,1,フランス語（フランス）
+95,14,5,French (France)
+96,14,6,프랑스어 (프랑스)
+97,14,9,法语（法国）
+98,14,10,法語（法國）
+99,14,14,Française (France)
+100,14,15,Francesa (Francia)
+101,14,16,Francese (Francia)
+102,14,17,Französische (Frankreich)
+103,15,1,スペイン語（スペイン）
+104,15,5,Spanish (Spain)
+105,15,6,스페인어 (스페인)
+106,15,9,西班牙语（西班牙）
+107,15,10,西班牙語（西班牙）
+108,15,14,Espagnol (Espagne)
+109,15,15,Español (España)
+110,15,16,Spagnolo (Spagna)
+111,15,17,Spanisch (Spanien)
+112,16,1,イタリア語
+113,16,5,Italian
+114,16,6,이태리어
+115,16,9,意大利语
+116,16,10,意大利語
+117,16,14,Italienne
+118,16,15,Italiano
+119,16,16,Italiana
+120,16,17,Italienische
+121,17,1,ドイツ語
+122,17,5,German
+123,17,6,독일어
+124,17,9,德语
+125,17,10,德語
+126,17,14,Allemand
+127,17,15,Alemán
+128,17,16,Tedesco
+129,17,17,Deutsch

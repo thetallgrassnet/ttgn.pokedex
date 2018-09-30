@@ -1,6 +1,10 @@
 """Test the ttgn.pokedex.models.multilang module."""
 # pylint: disable=no-self-use
-from ttgn.pokedex.models.multilang import Language
+import pytest
+
+from ttgn.pokedex.models.base import Base
+from ttgn.pokedex.models.multilang import (Language, LanguageTranslation,
+                                           with_translations)
 
 
 class TestLanguage:
@@ -36,3 +40,36 @@ class TestLanguage:
             fr = pokedex.query(Language).filter(
                 Language.subtag == 'fr-fr').one()
             assert fr.id == 14
+
+    class TestTranslations:
+        """Test the ttgn.pokedex.models.multilang.Language.translations
+        relationship."""
+
+        def test_migration(self, pokedex):
+            """Test that the data migrations are run correctly for the model."""
+            query = pokedex.query(LanguageTranslation)
+            assert query.count() == 129
+
+    class TestName:
+        """Test the ttgn.pokedex.models.multilang.Language.name association
+        proxy."""
+
+        def test_name(self, pokedex):
+            en = pokedex.query(Language).get(5)
+            assert set(en.name) == set([
+                '英語', 'English', '영어', '英语', '英語', 'Anglaise', 'Inglés',
+                'Inglese', 'Englische'
+            ])
+
+
+class TestWithTranslations:
+    """Test the ttgn.pokedex.models.multilang.with_translations decorator."""
+
+    def test_with_translation_type_error(self):
+        class TestModel(Base):
+            pass
+
+        with pytest.raises(TypeError) as error:
+            with_translations(name='foobar')(TestModel)
+        assert 'name expected to be a sqlalchemy.Column, was foobar' == str(
+            error.value)
