@@ -8,7 +8,7 @@ from ttgn.pokedex.utils import snake_case
 engine = inflect.engine()
 
 
-def belongs_to(target, name=None, backref=None, nullable=False):
+def belongs_to(target, name=None, backref=True, nullable=False):
     """Decorator that creates a foreign key column and relationship on the
     decorated class pointing to the target class.
 
@@ -19,7 +19,7 @@ def belongs_to(target, name=None, backref=None, nullable=False):
     def decorator(cls):
         _name = snake_case(target.__name__) if name is None else name
         _name_id = '{}_id'.format(_name)
-        _backref = cls.__pluralname__ if backref is None else backref
+        _backref = cls.__pluralname__ if backref is True else backref
 
         setattr(
             cls, _name_id,

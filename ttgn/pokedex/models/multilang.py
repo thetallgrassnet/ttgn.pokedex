@@ -49,7 +49,7 @@ def with_translations(**kwargs):
         translations = type('{}Translation'.format(cls.__name__), (Base, ), {})
         translations = belongs_to(cls, backref='translations')(translations)
         translations = belongs_to(
-            Language, name='local_language')(translations)
+            Language, name='local_language', backref=None)(translations)
         translations.__table__.append_constraint(
             sqlalchemy.UniqueConstraint(
                 '{}_id'.format(snake_case(cls.__name__)), 'local_language_id'))
