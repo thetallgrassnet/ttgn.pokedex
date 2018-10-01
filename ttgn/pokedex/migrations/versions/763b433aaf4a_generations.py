@@ -8,7 +8,8 @@ Create Date: 2018-09-19 12:55:45.996673
 import sqlalchemy as sa
 from alembic import context, op
 
-from ttgn.pokedex.migrations.data import if_x_argument, load_data_migrations
+from ttgn.pokedex.migrations import if_x_argument
+from ttgn.pokedex.migrations.data import load_data_migrations
 
 # revision identifiers, used by Alembic.
 revision = '763b433aaf4a'

@@ -1,13 +1,6 @@
 """Utility methods for data migration processing."""
 
 
-def if_x_argument(arg, default):
-    """Evaluates if a given x argument was passed to Alembic, using the given
-    default if not."""
-    from alembic import context
-    return context.get_x_argument(as_dictionary=True).get(arg, default)
-
-
 def load_data_migrations(rev, direction):
     """Loads and performs data migrations for a given revision and
     direction."""

@@ -8,7 +8,8 @@ Create Date: ${create_date}
 import sqlalchemy as sa
 from alembic import context, op
 
-from ttgn.pokedex.migrations.data import if_x_argument, load_data_migrations
+from ttgn.pokedex.migrations import if_x_argument
+from ttgn.pokedex.migrations.data import load_data_migrations
 ${imports if imports else ""}
 
 # revision identifiers, used by Alembic.
