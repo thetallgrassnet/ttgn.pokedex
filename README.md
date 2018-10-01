@@ -10,7 +10,7 @@ A database of Pokémon information.
 
 ### Requirements
 
-* Python 3.4+
+* Python 3.5+
 * Pip
 
 ### Setup
@@ -46,12 +46,11 @@ py.test
   available:
 
   ```bash
-  pyenv install 3.4.9
   pyenv install 3.5.6
   pyenv install 3.6.6
   pyenv install 3.7.0
   pyenv install pypy3.5-6.0.0
-  pyenv local 3.7.0 3.4.9 3.5.6 3.6.6 pypy3.5-6.0.0
+  pyenv local 3.7.0 3.5.6 3.6.6 pypy3.5-6.0.0
   ```
 
 #### Running tests
