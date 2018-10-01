@@ -38,7 +38,8 @@ def _read_data_from_migrations(data_migrations):
         operation = match.group(1)
         model = match.group(2)
 
-        data.setdefault(model, {})[operation] = []
+        data.setdefault(model, {})
+        data[model].setdefault(operation, [])
 
         raw_data = resource_string('ttgn.pokedex',
                                    'migrations/data/{}'.format(file))

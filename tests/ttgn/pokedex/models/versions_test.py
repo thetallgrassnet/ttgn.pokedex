@@ -87,3 +87,8 @@ class TestVersion:
         """Test the ttgn.pokedex.models.versions.Version.__str__() method."""
         version = pokedex.query(versions.Version).get(1)
         assert str(version) == 'Red'
+
+    def test_translations(self, pokedex):
+        """Test the insertion of versions.Version translations."""
+        query = pokedex.query(versions.VersionTranslation)
+        assert query.count() == 198

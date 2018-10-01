@@ -1,0 +1,125 @@
+id,version_id,local_language_id,name
+1,1,1,赤
+2,1,14,Rouge
+3,1,17,Rot
+4,1,16,Rossa
+5,1,5,Red
+6,2,1,緑
+7,2,14,Bleu
+8,2,17,Blau
+9,2,16,Blu
+10,2,5,Blue
+11,3,1,ピカチュウ
+12,3,14,Jaune
+13,3,17,Gelb
+14,3,16,Gialla
+15,3,5,Yellow
+16,4,1,金
+17,4,14,Or
+18,4,17,Gold
+19,4,16,Oro
+20,4,5,Gold
+21,5,1,銀
+22,5,14,Argent
+23,5,17,Silber
+24,5,16,Argento
+25,5,5,Silver
+26,6,1,クリスタル
+27,6,14,Cristal
+28,6,17,Kristall
+29,6,16,Cristallo
+30,6,5,Crystal
+31,7,1,ルビー
+32,7,14,Rubis
+33,7,17,Rubin
+34,7,16,Rubino
+35,7,5,Ruby
+36,8,1,サファイア
+37,8,14,Saphir
+38,8,17,Saphir
+39,8,16,Zaffiro
+40,8,5,Sapphire
+41,11,1,エメラルド
+42,11,14,Émeraude
+43,11,17,Smaragd
+44,11,16,Smeraldo
+45,11,5,Emerald
+46,9,1,ファイアレッド
+47,9,14,Rouge Feu
+48,9,17,Feuerrot
+49,9,16,Rosso Fuoco
+50,9,5,FireRed
+51,10,1,リーフグリーン
+52,10,14,Vert Feuille
+53,10,17,Blattgrün
+54,10,16,Verde Foglia
+55,10,5,LeafGreen
+56,12,1,ダイヤモンド
+57,12,14,Diamant
+58,12,17,Diamant
+59,12,16,Diamante
+60,12,5,Diamond
+61,13,1,パール
+62,13,14,Perle
+63,13,17,Perl
+64,13,16,Perla
+65,13,5,Pearl
+66,14,1,プラチナ
+67,14,14,Platine
+68,14,17,Platin
+69,14,16,Platino
+70,14,5,Platinum
+71,15,1,ハートゴールド
+72,15,14,Or HeartGold
+73,15,17,HeartGold
+74,15,16,Oro HeartGold
+75,15,5,HeartGold
+76,16,1,ソウルシルバー
+77,16,14,Argent SoulSilver
+78,16,17,SoulSilver
+79,16,16,Argento SoulSilver
+80,16,5,SoulSilver
+81,17,1,ブラック
+82,17,14,Noir
+83,17,17,Schwarz
+84,17,16,Nera
+85,17,5,Black
+86,18,1,ホワイト
+87,18,14,Blanc
+88,18,17,Weiß
+89,18,16,Bianca
+90,18,5,White
+91,19,1,ブラック2
+92,19,14,Noir 2
+93,19,17,Schwarz 2
+94,19,16,Nera 2
+95,19,5,Black 2
+96,20,1,ホワイト2
+97,20,14,Blanc 2
+98,20,17,Weiß 2
+99,20,16,Bianca 2
+100,20,5,White 2
+101,21,1,X
+102,21,14,X
+103,21,17,X
+104,21,16,X
+105,21,5,X
+106,22,1,Y
+107,22,14,Y
+108,22,17,Y
+109,22,16,Y
+110,22,5,Y
+111,23,1,オメガルビー
+112,23,14,Rubis Oméga
+113,23,17,Omega Rubin
+114,23,16,Rubino Omega
+115,23,5,Omega Ruby
+116,24,1,アルファサファイア
+117,24,14,Saphir Alpha
+118,24,17,Alpha Saphir
+119,24,16,Zaffiro Alpha
+120,24,5,Alpha Sapphire
+121,25,5,Sun
+122,26,5,Moon
+123,27,5,Ultra Sun
+124,28,5,Ultra Moon

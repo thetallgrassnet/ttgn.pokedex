@@ -2,6 +2,7 @@
 import sqlalchemy.orm
 
 from .base import Base, belongs_to
+from .multilang import with_translations
 
 
 class Generation(Base):
@@ -21,9 +22,11 @@ class VersionGroup(Base):
 
 
 @belongs_to(VersionGroup)
+@with_translations(name=sqlalchemy.Column(sqlalchemy.Unicode, nullable=False))
 class Version(Base):
     """Model representing a core-series game version."""
-    name = sqlalchemy.Column(sqlalchemy.String, nullable=False, unique=True)
+    _name = sqlalchemy.Column(
+        'name', sqlalchemy.String, nullable=False, unique=True)
     acronym = sqlalchemy.Column(
         sqlalchemy.String(2), nullable=False, unique=True)
 
@@ -34,4 +37,4 @@ class Version(Base):
         backref='versions')
 
     def __str__(self):
-        return self.name
+        return self._name
