@@ -1,29 +1,29 @@
-id,version_group_id,name,acronym
-1,1,Red,R
-2,1,Blue,B
-3,2,Yellow,Ye
-4,3,Gold,G
-5,3,Silver,S
-6,4,Crystal,C
-7,5,Ruby,Ru
-8,5,Sapphire,Sa
-9,6,FireRed,FR
-10,6,LeafGreen,LG
-11,7,Emerald,E
-12,8,Diamond,D
-13,8,Pearl,P
-14,9,Platinum,Pt
-15,10,HeartGold,HG
-16,10,SoulSilver,SS
-17,11,Black,K
-18,11,White,W
-19,12,Black 2,K2
-20,12,White 2,W2
-21,13,X,X
-22,13,Y,Y
-23,14,Omega Ruby,OR
-24,14,Alpha Sapphire,AS
-25,15,Sun,N
-26,15,Moon,M
-27,16,Ultra Sun,UN
-28,16,Ultra Moon,UM
+id,version_group_id,acronym
+1,1,R
+2,1,B
+3,2,Ye
+4,3,G
+5,3,S
+6,4,C
+7,5,Ru
+8,5,Sa
+9,6,FR
+10,6,LG
+11,7,E
+12,8,D
+13,8,P
+14,9,Pt
+15,10,HG
+16,10,SS
+17,11,K
+18,11,W
+19,12,K2
+20,12,W2
+21,13,X
+22,13,Y
+23,14,OR
+24,14,AS
+25,15,N
+26,15,M
+27,16,UN
+28,16,UM

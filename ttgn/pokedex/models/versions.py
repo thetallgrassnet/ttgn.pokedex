@@ -25,8 +25,6 @@ class VersionGroup(Base):
 @with_translations(name=sqlalchemy.Column(sqlalchemy.Unicode, nullable=False))
 class Version(Base):
     """Model representing a core-series game version."""
-    _name = sqlalchemy.Column(
-        'name', sqlalchemy.String, nullable=False, unique=True)
     acronym = sqlalchemy.Column(
         sqlalchemy.String(2), nullable=False, unique=True)
 
@@ -37,4 +35,4 @@ class Version(Base):
         backref='versions')
 
     def __str__(self):
-        return self._name
+        return self.acronym

@@ -47,13 +47,11 @@ def schema_upgrade():
         'ttgn_pokedex_models_versions_versions',
         sa.Column('id', sa.Integer(), nullable=False),
         sa.Column('version_group_id', sa.Integer(), nullable=False),
-        sa.Column('name', sa.String(), nullable=False),
         sa.Column('acronym', sa.String(length=2), nullable=False),
         sa.ForeignKeyConstraint(
             ['version_group_id'],
             ['ttgn_pokedex_models_versions_version_groups.id'],
-        ), sa.PrimaryKeyConstraint('id'), sa.UniqueConstraint('acronym'),
-        sa.UniqueConstraint('name'))
+        ), sa.PrimaryKeyConstraint('id'), sa.UniqueConstraint('acronym'))
     # ### end Alembic commands ###
 
 
