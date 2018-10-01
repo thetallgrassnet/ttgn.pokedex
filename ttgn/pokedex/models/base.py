@@ -5,7 +5,7 @@ from sqlalchemy.ext import declarative
 
 from ttgn.pokedex.utils import snake_case
 
-engine = inflect.engine()
+inflector = inflect.engine()
 
 
 def belongs_to(target, name=None, backref=True, nullable=False):
@@ -48,7 +48,7 @@ class Base:
     @declarative.declared_attr
     def __pluralname__(cls):
         name = snake_case(cls.__name__).rsplit('_', 1)
-        name.append(engine.plural(name.pop()))
+        name.append(inflector.plural(name.pop()))
         return '_'.join(name)
 
     # pylint: disable=no-self-argument
