@@ -10,7 +10,6 @@ from alembic import context, op
 
 from ttgn.pokedex.migrations import if_x_argument
 from ttgn.pokedex.migrations.data import load_data_migrations
-from ttgn.pokedex.migrations.veekun import create_migration_from_veekun
 
 # revision identifiers, used by Alembic.
 revision = '057a815dde73'
@@ -62,10 +61,6 @@ def schema_downgrade():
 
 
 def data_upgrade():
-    create_migration_from_veekun('version_names', revision,
-                                 'versions.VersionTranslation',
-                                 _fix_ja_local_language_id)
-
     try:
         load_data_migrations(revision, 'upgrade')
     except Exception:
@@ -76,11 +71,3 @@ def data_upgrade():
 
 def data_downgrade():
     load_data_migrations(revision, 'downgrade')
-
-
-def _fix_ja_local_language_id(row):
-    """Bypass the usual mapping of ja-Hrkt."""
-    if row['local_language_id'] == '2':
-        row['local_language_id'] = '1'
-
-    return row
