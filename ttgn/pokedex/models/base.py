@@ -25,7 +25,7 @@ def belongs_to(target, name=None, backref=True, nullable=False):
             cls, _name_id,
             sqlalchemy.Column(
                 sqlalchemy.Integer,
-                sqlalchemy.ForeignKey(target.id),
+                sqlalchemy.ForeignKey(target.id_),
                 nullable=nullable))
 
         setattr(
@@ -42,7 +42,7 @@ def belongs_to(target, name=None, backref=True, nullable=False):
 
 class Base:
     """Base class for SQLAlchemy declarative base."""
-    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    id_ = sqlalchemy.Column('id', sqlalchemy.Integer, primary_key=True)
 
     # pylint: disable=no-self-argument
     @declarative.declared_attr

@@ -9,7 +9,7 @@ class Generation(Base):
     """Model representing a core-series game generation."""
 
     def __str__(self):
-        return 'Generation {}'.format(self.id)
+        return 'Generation {}'.format(self.id_)
 
 
 @belongs_to(Generation)

@@ -39,7 +39,7 @@ class TestLanguage:
             """Test querying by subtag."""
             fr_fr = pokedex.query(Language).filter(
                 Language.subtag == 'fr-fr').one()
-            assert fr_fr.id == 14
+            assert fr_fr.id_ == 14
 
     class TestTranslations:
         """Test the ttgn.pokedex.models.multilang.Language.translations

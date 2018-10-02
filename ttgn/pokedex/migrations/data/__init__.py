@@ -61,7 +61,7 @@ def _perform_data_migration_update(table, rows):
     from sqlalchemy.sql.expression import bindparam
 
     for keys, grouped_rows in groupby(rows, key=lambda r: r.keys()):
-        stmt = table.update().where(table.c.id == bindparam('id')).values(
+        stmt = table.update().where(table.c.id_ == bindparam('id')).values(
             {key: bindparam(key)
              for key in keys if not key == 'id'})
         execute(stmt, grouped_rows)
@@ -71,7 +71,7 @@ def _perform_data_migration_delete(table, rows):
     from alembic.op import execute
     from sqlalchemy.sql.expression import bindparam
 
-    stmt = table.delete().where(table.c.id == bindparam('id'))
+    stmt = table.delete().where(table.c.id_ == bindparam('id'))
     execute(stmt, rows)
 
 
