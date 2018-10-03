@@ -21,10 +21,8 @@ def _read_data_from_migrations(data_migrations):
 
     for filename in data_migrations:
         reader = MigrationReader(filename)
-        model, operation, migration_data = reader.read_migration()
-
-        data.setdefault(model, {})
-        data[model].setdefault(operation, []).extend(migration_data)
+        model, operation, rows = reader.read_migration()
+        data.setdefault(model, {}).setdefault(operation, []).extend(rows)
 
     return data
 
@@ -89,7 +87,6 @@ class MigrationReader:
         self.operation = match.group(1)
         self.model = match.group(2)
         self.filename = filename
-        self.__reader = None
 
     def read_migration(self):
         """Return the migration model, operation, and data."""
