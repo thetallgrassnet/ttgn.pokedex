@@ -19,34 +19,14 @@ def load_data_migrations(rev, direction):
 def _read_data_from_migrations(data_migrations):
     data = {}
 
-    for file in data_migrations:
-        import csv
-        import re
-        from pkg_resources import resource_string, yield_lines
-
-        match = re.match(
-            r'[0-9a-f]{12}_(?:up|down)grade_'
-            r'(insert|update|delete)_'
-            r'([a-z_]+\.[A-Z][A-Za-z]+).*\.csv', file)
-        operation = match.group(1)
-        model = match.group(2)
+    for filename in data_migrations:
+        reader = MigrationReader(filename)
+        model, operation, migration_data = reader.read_migration()
 
         data.setdefault(model, {})
-        data[model].setdefault(operation, [])
-
-        raw_data = resource_string('ttgn.pokedex',
-                                   'migrations/data/{}'.format(file))
-        reader = csv.DictReader(yield_lines(raw_data.decode('utf-8')))
-
-        for row in reader:
-            data[model][operation].append(_noneify_row(row))
+        data[model].setdefault(operation, []).extend(migration_data)
 
     return data
-
-
-def _noneify_row(row):
-    """Interpret empty strings in a CSV row as None."""
-    return {k: None if v == '' else v for k, v in row.items()}
 
 
 def _perform_data_migration_insert(table, rows):
@@ -93,3 +73,39 @@ def _import_model(model_path):
     from ttgn.pokedex.utils import import_string
 
     return import_string('ttgn.pokedex.models.{}'.format(model_path))
+
+
+class MigrationReader:
+    """Parse a data migration to get the model, operation, and data."""
+
+    def __init__(self, filename):
+        import re
+
+        match = re.match(
+            r'[0-9a-f]{12}_(?:up|down)grade_'
+            r'(insert|update|delete)_'
+            r'([a-z_]+\.[A-Z][A-Za-z]+).*\.csv', filename)
+
+        self.operation = match.group(1)
+        self.model = match.group(2)
+        self.filename = filename
+        self.__reader = None
+
+    def read_migration(self):
+        """Return the migration model, operation, and data."""
+        return (self.model, self.operation, list(self._reader))
+
+    @property
+    def _reader(self):
+        import csv
+
+        for row in csv.DictReader(self._readlines()):
+            yield {k: None if v == '' else v for k, v in row.items()}
+
+    def _readlines(self):
+        from pkg_resources import resource_string, yield_lines
+
+        raw_data = resource_string('ttgn.pokedex',
+                                   'migrations/data/{}'.format(self.filename))
+
+        yield from yield_lines(raw_data.decode('utf-8'))
