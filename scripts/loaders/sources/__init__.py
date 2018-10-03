@@ -7,7 +7,7 @@ class BaseSource(ABC):
     """Abstract external data source."""
 
     def __init__(self):
-        self._reader = None
+        self.__reader = None
 
     @property
     @classmethod
@@ -19,28 +19,15 @@ class BaseSource(ABC):
     def __str__(self):
         return self.__sourcename__
 
-    @abstractmethod
-    def open(self):
-        """Return an iterable object that yields lines from the source data."""
-        pass
-
     @property
     def fieldnames(self):
         """Return a list of fieldnames included in the data."""
-        return self._get_reader().fieldnames
+        return self._reader.fieldnames
 
     @property
     def reader(self):
         """Yield a series of OrderedDicts representing parsed rows of data."""
-        yield from self._map_rows(self._get_reader())
-
-    def _get_reader(self):
-        """Create (if it hasn't been) and return a csv.DictReader for the lines
-        of data from the raw source."""
-        if self._reader is None:
-            self._reader = csv.DictReader(self._readlines())
-
-        return self._reader
+        yield from self._map_rows(self._reader)
 
     # pylint: disable=no-self-use
     def _map_rows(self, rows):
@@ -48,9 +35,23 @@ class BaseSource(ABC):
         representing each row of data."""
         yield from rows
 
+    @abstractmethod
+    def _open(self):
+        """Return an iterable object that yields lines from the source data."""
+        pass
+
+    @property
+    def _reader(self):
+        """Create (if it hasn't been) and return a csv.DictReader for the lines
+        of data from the raw source."""
+        if self.__reader is None:
+            self.__reader = csv.DictReader(self._readlines())
+
+        return self.__reader
+
     def _readlines(self):
         """Yield lines of transformed data from the raw source."""
-        with self.open() as data:
+        with self._open() as data:
             yield from self._transform_data(data)
 
     # pylint: disable=no-self-use

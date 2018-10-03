@@ -60,10 +60,6 @@ class VeekunSource(BaseSource):
                     '{}/pokedex/data/csv/{}.csv').format(ref, table)
         self.value_mapped_fields = self.fieldnames & value_mappings.keys()
 
-    def open(self):
-        """Open the URL pointing to the CSV data."""
-        return urlopen(self.url)
-
     def _map_rows(self, rows):
         """Perform known data mappings."""
         for row in rows:
@@ -74,6 +70,10 @@ class VeekunSource(BaseSource):
                 yield row
             except KeyError:
                 continue
+
+    def _open(self):
+        """Open the URL pointing to the CSV data."""
+        return urlopen(self.url)
 
     def _transform_data(self, data):
         """Convert each binary line to a Unicode string."""
