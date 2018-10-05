@@ -1,5 +1,5 @@
-"""Import version translations from Veekun."""
 # pylint: disable=invalid-name
+"""Import version translations from Veekun."""
 from scripts.loaders import MigrationWriter
 from scripts.loaders.sources.veekun import VeekunSource
 
