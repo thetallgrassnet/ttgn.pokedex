@@ -4,8 +4,8 @@
 def snake_case(name):
     """Converts a CamelCase string to snake_case."""
     import re
-    sub_1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
-    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', sub_1).lower()
+    sub_1 = re.sub(r'(.)([A-Z][a-z]+)', r'\1_\2', name)
+    return re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', sub_1).lower()
 
 
 def import_string(dotted_path):
