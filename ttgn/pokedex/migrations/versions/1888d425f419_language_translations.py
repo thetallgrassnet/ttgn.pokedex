@@ -41,7 +41,7 @@ def schema_upgrade():
         sa.Column('id', sa.Integer(), nullable=False),
         sa.Column('language_id', sa.Integer(), nullable=False),
         sa.Column('local_language_id', sa.Integer(), nullable=False),
-        sa.Column('name', sa.Unicode(length=64), nullable=False),
+        sa.Column('name', sa.Unicode(), nullable=False),
         sa.ForeignKeyConstraint(
             ['language_id'],
             ['ttgn_pokedex_models_multilang_languages.id'],

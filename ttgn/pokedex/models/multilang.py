@@ -72,4 +72,4 @@ def with_translations(**kwargs):
 
 
 Language = with_translations(
-    name=sqlalchemy.Column(sqlalchemy.Unicode(64), nullable=False))(Language)
+    name=sqlalchemy.Column(sqlalchemy.Unicode, nullable=False))(Language)
