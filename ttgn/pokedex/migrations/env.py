@@ -10,17 +10,17 @@ from ttgn.pokedex import models
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
-config = context.config
+CONFIG = context.config
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
-fileConfig(config.config_file_name)
+fileConfig(CONFIG.config_file_name)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = models.base.Base.metadata
+TARGET_METADATA = models.base.Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -46,7 +46,7 @@ def run_migrations_offline():
     if url:
         context.configure(
             url=url,
-            target_metadata=target_metadata,
+            target_metadata=TARGET_METADATA,
             literal_binds=True,
             render_as_batch=True)
 
@@ -64,10 +64,10 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    connectable = config.attributes.get('connectable', None)
+    connectable = CONFIG.attributes.get('connectable', None)
 
     if connectable is None:
-        ini_section = config.get_section(config.config_ini_section)
+        ini_section = CONFIG.get_section(CONFIG.config_ini_section)
 
         sqlalchemy_url = context.get_x_argument(as_dictionary=True).get(
             'sqlalchemy.url', None)
@@ -84,7 +84,7 @@ def run_migrations_online():
     with connectable.connect() as connection:
         context.configure(
             connection=connection,
-            target_metadata=target_metadata,
+            target_metadata=TARGET_METADATA,
             render_as_batch=True)
 
         with context.begin_transaction():

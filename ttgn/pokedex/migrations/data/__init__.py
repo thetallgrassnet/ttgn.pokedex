@@ -53,7 +53,7 @@ def _perform_data_migration_delete(table, rows):
     execute(stmt, rows)
 
 
-_data_migration_operations = {
+_DATA_MIGRATION_OPERATIONS = {
     'insert': _perform_data_migration_insert,
     'update': _perform_data_migration_update,
     'delete': _perform_data_migration_delete,
@@ -64,7 +64,7 @@ def _perform_data_migration(model, data):
     table = _import_model(model).__table__
 
     for operation, rows in data.items():
-        _data_migration_operations[operation](table, rows)
+        _DATA_MIGRATION_OPERATIONS[operation](table, rows)
 
 
 def _import_model(model_path):

@@ -3,7 +3,7 @@ from urllib.request import urlopen
 
 from . import BaseSource
 
-value_mappings = {
+VALUE_MAPPINGS = {
     'local_language_id': {
         '1': '2',
         '2': '4',
@@ -58,14 +58,14 @@ class VeekunSource(BaseSource):
         super().__init__()
         self.url = ('https://raw.githubusercontent.com/veekun/pokedex/'
                     '{}/pokedex/data/csv/{}.csv').format(ref, table)
-        self.value_mapped_fields = self.fieldnames & value_mappings.keys()
+        self.value_mapped_fields = self.fieldnames & VALUE_MAPPINGS.keys()
 
     def _map_rows(self, rows):
         """Perform known data mappings."""
         for row in rows:
             try:
                 for field in self.value_mapped_fields:
-                    row[field] = value_mappings[field][row[field]]
+                    row[field] = VALUE_MAPPINGS[field][row[field]]
 
                 yield row
             except KeyError:
