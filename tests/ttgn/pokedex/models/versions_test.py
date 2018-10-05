@@ -1,5 +1,5 @@
-"""Test the ttgn.pokedex.models.versions module."""
 # pylint: disable=no-self-use
+"""Test the ttgn.pokedex.models.versions module."""
 from ttgn.pokedex.models import versions
 
 

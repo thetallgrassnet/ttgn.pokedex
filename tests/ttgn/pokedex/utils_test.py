@@ -1,5 +1,5 @@
-"""Test the ttgn.pokedex.utils module."""
 # pylint: disable=no-self-use
+"""Test the ttgn.pokedex.utils module."""
 import pytest
 
 from ttgn.pokedex import utils

@@ -1,5 +1,5 @@
-"""Test the ttgn.pokedex.models.multilang module."""
 # pylint: disable=no-self-use
+"""Test the ttgn.pokedex.models.multilang module."""
 import pytest
 
 from ttgn.pokedex.models.base import Base
