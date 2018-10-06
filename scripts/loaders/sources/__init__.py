@@ -1,6 +1,6 @@
 """External data sources for data migration import."""
-import csv
 from abc import ABC, abstractmethod
+from csv import DictReader
 
 
 class BaseSource(ABC):
@@ -45,7 +45,7 @@ class BaseSource(ABC):
         """Create (if it hasn't been) and return a csv.DictReader for the lines
         of data from the raw source."""
         if self.__reader is None:
-            self.__reader = csv.DictReader(self._readlines())
+            self.__reader = DictReader(self._readlines())
 
         return self.__reader
 

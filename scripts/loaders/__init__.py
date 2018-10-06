@@ -1,6 +1,6 @@
 """External data loaders for creating data migrations."""
-import csv
-import os
+from csv import DictWriter
+from os.path import exists
 
 from pkg_resources import resource_filename
 
@@ -14,7 +14,7 @@ class MigrationWriter:
             'migrations/data/{}_upgrade_insert_{}_{}.csv'.format(
                 rev, model, source))
 
-        if os.path.exists(self.data_path) and not force:
+        if exists(self.data_path) and not force:
             raise FileExistsError
 
         self.source = source
@@ -22,7 +22,7 @@ class MigrationWriter:
     def write_migration(self):
         """Write the source data to a migration file."""
         with open(self.data_path, 'w', newline='') as data:
-            writer = csv.DictWriter(data, fieldnames=self.source.fieldnames)
+            writer = DictWriter(data, fieldnames=self.source.fieldnames)
             writer.writeheader()
 
             for row in self.source.reader:

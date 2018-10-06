@@ -10,8 +10,8 @@ A database of Pokémon information.
 
 ### Requirements
 
-* Python 3.5+
-* Pip
+- Python 3.5+
+- Pip
 
 ### Setup
 
@@ -42,7 +42,7 @@ py.test
 
 #### Additional requirements
 
-* Pyenv, with all of the supported Python versions installed and locally
+- Pyenv, with all of the supported Python versions installed and locally
   available:
 
   ```bash
@@ -68,10 +68,9 @@ tox -r
 ## Usage
 
 ```python
-from ttgn.pokedex import Pokedex
-from ttgn.pokedex.models.versions import Version
+from ttgn.pokedex import Pokedex, models
 pokedex = Pokedex("postgres://user:pass@host:port/db")
-red = pokedex.query(Version).where(Version.name == 'Red')
+red = pokedex.query(models.versions.Version).where(models.versions.Version.name == 'Red')
 ```
 
 The database will be initialized or migrated when the Pokédex is instantiated.
@@ -83,8 +82,8 @@ scope:
 
 ```python
 with pokedex.session_scope() as session:
-    red = session.query(Version).where(Version.name == 'Red')
-    charmander = session.query(Species).where(Species.name == 'Charmander')
+    red = session.query(models.versions.Version).where(models.versions.Version.name == 'Red')
+    charmander = session.query(models.pokemon.Species).where(models.pokemon.Species.name == 'Charmander')
 ```
 
 ### SQLAlchemy integration

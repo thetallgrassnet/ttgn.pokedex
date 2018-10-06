@@ -1,6 +1,12 @@
 # pylint: disable=no-self-use
 """Test the ttgn.pokedex module."""
+import os
+
 import pytest
+
+from sqlalchemy import create_engine
+
+from ttgn.pokedex import Pokedex
 
 
 class TestPokedex:
@@ -12,10 +18,6 @@ class TestPokedex:
         def test_init_engine(self):
             """Test providing a SQLAlchemy engine to the Pokedex
             constructor."""
-            import os
-
-            from sqlalchemy import create_engine
-            from ttgn.pokedex import Pokedex
 
             path = os.path.realpath(
                 os.path.join(

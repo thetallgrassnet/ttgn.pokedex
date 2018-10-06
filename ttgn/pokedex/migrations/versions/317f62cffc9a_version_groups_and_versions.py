@@ -6,8 +6,9 @@ Revises: 763b433aaf4a
 Create Date: 2018-09-20 07:27:20.649971
 
 """
-import sqlalchemy as sa
 from alembic import op
+
+import sqlalchemy as sa
 
 from ttgn.pokedex.migrations import if_x_argument
 from ttgn.pokedex.migrations.data import load_data_migrations

@@ -1,8 +1,9 @@
 """Core-series game related models."""
-import sqlalchemy.orm
+import sqlalchemy as sa
+from sqlalchemy.orm import relationship
 
-from .base import Base, belongs_to
-from .multilang import with_translations
+from ttgn.pokedex.models.base import Base, belongs_to
+from ttgn.pokedex.models.multilang import with_translations
 
 
 class Generation(Base):
@@ -22,13 +23,12 @@ class VersionGroup(Base):
 
 
 @belongs_to(VersionGroup)
-@with_translations(name=sqlalchemy.Column(sqlalchemy.Unicode, nullable=False))
+@with_translations(name=sa.Column(sa.Unicode, nullable=False))
 class Version(Base):
     """Model representing a core-series game version."""
-    acronym = sqlalchemy.Column(
-        sqlalchemy.String(2), nullable=False, unique=True)
+    acronym = sa.Column(sa.String(2), nullable=False, unique=True)
 
-    generation = sqlalchemy.orm.relationship(
+    generation = relationship(
         Generation,
         secondary=VersionGroup.__table__,
         uselist=False,

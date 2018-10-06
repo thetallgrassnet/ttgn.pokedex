@@ -1,2 +1,2 @@
 """Exports all Pokédex SQLAlchemy models."""
-from . import base, multilang, versions
+from ttgn.pokedex.models import base, multilang, versions

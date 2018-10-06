@@ -1,24 +1,23 @@
 """Translation-related models and utility functions."""
 import sys
 
-import sqlalchemy
+import sqlalchemy as sa
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import case
 
+from ttgn.pokedex.models.base import Base, belongs_to
 from ttgn.pokedex.utils import snake_case
-
-from .base import Base, belongs_to
 
 
 class Language(Base):
     """Model representing an IANA language subtag for translation
     identification."""
-    order = sqlalchemy.Column(sqlalchemy.Integer, nullable=False, unique=True)
-    language = sqlalchemy.Column(sqlalchemy.String(3), nullable=False)
-    script = sqlalchemy.Column(sqlalchemy.String(8))
-    region = sqlalchemy.Column(sqlalchemy.String(2))
-    variant = sqlalchemy.Column(sqlalchemy.String(16))
+    order = sa.Column(sa.Integer, nullable=False, unique=True)
+    language = sa.Column(sa.String(3), nullable=False)
+    script = sa.Column(sa.String(8))
+    region = sa.Column(sa.String(2))
+    variant = sa.Column(sa.String(16))
 
     @hybrid_property
     def subtag(self):
@@ -51,11 +50,11 @@ def with_translations(**kwargs):
         translations = belongs_to(
             Language, name='local_language', backref=None)(translations)
         translations.__table__.append_constraint(
-            sqlalchemy.UniqueConstraint(
-                '{}_id'.format(snake_case(cls.__name__)), 'local_language_id'))
+            sa.UniqueConstraint('{}_id'.format(snake_case(cls.__name__)),
+                                'local_language_id'))
 
         for attr, column in kwargs.items():
-            if not isinstance(column, sqlalchemy.Column):
+            if not isinstance(column, sa.Column):
                 raise TypeError(
                     '{} expected to be a sqlalchemy.Column, was {}'.format(
                         attr, column))
@@ -72,4 +71,4 @@ def with_translations(**kwargs):
 
 
 Language = with_translations(
-    name=sqlalchemy.Column(sqlalchemy.Unicode, nullable=False))(Language)
+    name=sa.Column(sa.Unicode, nullable=False))(Language)

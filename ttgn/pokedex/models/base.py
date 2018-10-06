@@ -1,11 +1,13 @@
 """SQLAlchemy model declarative base configuration."""
-import inflect
-import sqlalchemy.orm
+from inflect import engine as inflector
+
+import sqlalchemy as sa
 from sqlalchemy.ext import declarative
+from sqlalchemy.orm import relationship
 
 from ttgn.pokedex.utils import snake_case
 
-_INFLECTOR = inflect.engine()
+_INFLECTOR = inflector()
 
 
 def belongs_to(target, name=None, backref=True, nullable=False):
@@ -23,14 +25,12 @@ def belongs_to(target, name=None, backref=True, nullable=False):
 
         setattr(
             cls, _name_id,
-            sqlalchemy.Column(
-                sqlalchemy.Integer,
-                sqlalchemy.ForeignKey(target.id_),
-                nullable=nullable))
+            sa.Column(
+                sa.Integer, sa.ForeignKey(target.id_), nullable=nullable))
 
         setattr(
             cls, _name,
-            sqlalchemy.orm.relationship(
+            relationship(
                 target,
                 backref=_backref,
                 foreign_keys=[getattr(cls, _name_id)]))
@@ -42,18 +42,18 @@ def belongs_to(target, name=None, backref=True, nullable=False):
 
 class Base:
     """Base class for SQLAlchemy declarative base."""
-    id_ = sqlalchemy.Column('id', sqlalchemy.Integer, primary_key=True)
+    id_ = sa.Column('id', sa.Integer, primary_key=True)
 
-    # pylint: disable=no-self-argument
     @declarative.declared_attr
     def __pluralname__(cls):
+        # pylint: disable=no-self-argument
         name = snake_case(cls.__name__).rsplit('_', 1)
         name.append(_INFLECTOR.plural(name.pop()))
         return '_'.join(name)
 
-    # pylint: disable=no-self-argument
     @declarative.declared_attr
     def __tablename__(cls):
+        # pylint: disable=no-self-argument
         """Generate the table name from the full module path of a model
         class."""
         return "{}_{}".format(
