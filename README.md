@@ -68,9 +68,10 @@ tox -r
 ## Usage
 
 ```python
-from ttgn.pokedex import Pokedex, models
-pokedex = Pokedex("postgres://user:pass@host:port/db")
-red = pokedex.query(models.versions.Version).where(models.versions.Version.name == 'Red')
+from ttgn.pokedex import Pokedex
+from ttgn.pokedex.models import pokemon, versions
+dex = Pokedex("postgres://user:pass@host:port/db")
+red = dex.query(versions.Version).where(versions.Version.name == 'Red')
 ```
 
 The database will be initialized or migrated when the Pokédex is instantiated.
@@ -81,9 +82,10 @@ method to wrap individual `SELECT` queries in transactions, or using the
 scope:
 
 ```python
-with pokedex.session_scope() as session:
-    red = session.query(models.versions.Version).where(models.versions.Version.name == 'Red')
-    charmander = session.query(models.pokemon.Species).where(models.pokemon.Species.name == 'Charmander')
+with dex.session_scope() as session:
+    red = session.query(versions.Version).where(versions.Version.name == 'Red')
+    charmander = session.query(pokemon.Species)\
+                        .where(pokemon.Species.name == 'Charmander')
 ```
 
 ### SQLAlchemy integration
