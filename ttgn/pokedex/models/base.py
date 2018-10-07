@@ -40,6 +40,7 @@ def belongs_to(target, name=None, backref_name=True, **backref_args):
             relationship(
                 target,
                 backref=_backref,
+                lazy='selectin',
                 foreign_keys=[getattr(cls, _name_id)]))
 
         return cls
