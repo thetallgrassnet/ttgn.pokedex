@@ -3,14 +3,22 @@ from inflect import engine as inflector
 
 import sqlalchemy as sa
 from sqlalchemy.ext import declarative
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import backref, relationship
 
 from ttgn.pokedex.utils import snake_case
 
 _INFLECTOR = inflector()
 
 
-def belongs_to(target, name=None, backref=True, nullable=False):
+def _backref_factory(name, cls, **kwargs):
+    if name is None:
+        return name
+
+    name = cls.__pluralname__ if name is True else name
+    return backref(name, **kwargs)
+
+
+def belongs_to(target, name=None, backref_name=True, **backref_args):
     """Decorator that creates a foreign key column and relationship on the
     decorated class pointing to the target class.
 
@@ -21,12 +29,11 @@ def belongs_to(target, name=None, backref=True, nullable=False):
     def decorator(cls):
         _name = snake_case(target.__name__) if name is None else name
         _name_id = '{}_id'.format(_name)
-        _backref = cls.__pluralname__ if backref is True else backref
+        _backref = _backref_factory(backref_name, cls, **backref_args)
 
         setattr(
             cls, _name_id,
-            sa.Column(
-                sa.Integer, sa.ForeignKey(target.id_), nullable=nullable))
+            sa.Column(sa.Integer, sa.ForeignKey(target.id_), nullable=False))
 
         setattr(
             cls, _name,

@@ -4,6 +4,7 @@ import sys
 import sqlalchemy as sa
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.orm.collections import attribute_mapped_collection
 from sqlalchemy.sql import case
 
 from ttgn.pokedex.models.base import Base, belongs_to
@@ -45,13 +46,20 @@ def with_translations(**kwargs):
     the translated columns."""
 
     def decorator(cls):
-        translations = type('{}Translation'.format(cls.__name__), (Base, ), {})
-        translations = belongs_to(cls, backref='translations')(translations)
-        translations = belongs_to(
-            Language, name='local_language', backref=None)(translations)
-        translations.__table__.append_constraint(
+        Translations = type('{}Translation'.format(cls.__name__), (Base, ), {})
+        Translations = belongs_to(
+            cls,
+            backref_name='translations',
+            collection_class=attribute_mapped_collection('subtag'))(
+                Translations)
+        Translations = belongs_to(
+            Language, name='local_language', backref_name=None)(Translations)
+        Translations.__table__.append_constraint(
             sa.UniqueConstraint('{}_id'.format(snake_case(cls.__name__)),
                                 'local_language_id'))
+
+        setattr(Translations, 'subtag',
+                association_proxy('local_language', 'subtag'))
 
         for attr, column in kwargs.items():
             if not isinstance(column, sa.Column):
@@ -59,11 +67,11 @@ def with_translations(**kwargs):
                     '{} expected to be a sqlalchemy.Column, was {}'.format(
                         attr, column))
 
-            setattr(translations, attr, column)
+            setattr(Translations, attr, column)
             setattr(cls, attr, association_proxy('translations', attr))
 
-        setattr(sys.modules[cls.__module__], translations.__name__,
-                translations)
+        setattr(sys.modules[cls.__module__], Translations.__name__,
+                Translations)
 
         return cls
 

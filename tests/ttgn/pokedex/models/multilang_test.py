@@ -59,10 +59,7 @@ class TestLanguage:
             """Tests that translated names are returned as the name
             property."""
             en_ = pokedex.query(Language).get(5)
-            assert set(en_.name) == set([
-                '英語', 'English', '영어', '英语', '英語', 'Anglaise', 'Inglés',
-                'Inglese', 'Englische'
-            ])
+            assert en_.name['zh-hans'] == '英语'
 
 
 class TestWithTranslations:
