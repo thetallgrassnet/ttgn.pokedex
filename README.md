@@ -1,19 +1,17 @@
 # ttgn.pokedex
 
-[![Build Status](https://travis-ci.org/thetallgrassnet/ttgn.pokedex.svg?branch=master)](https://travis-ci.org/thetallgrassnet/ttgn.pokedex)
-[![Coverage Status](https://coveralls.io/repos/github/thetallgrassnet/ttgn.pokedex/badge.svg?branch=master)](https://coveralls.io/github/thetallgrassnet/ttgn.pokedex?branch=master)
-[![Maintainability](https://api.codeclimate.com/v1/badges/1036c05a50abb42d3335/maintainability)](https://codeclimate.com/github/thetallgrassnet/ttgn.pokedex/maintainability)
+[![Build Status][travis-badge]][travis]
+[![Coverage Status][coveralls-badge]][coveralls]
+[![Maintainability][codeclimate-badge]][codeclimate]
 
 A database of Pokémon information.
 
-## Development
+## Requirements
 
-### Requirements
-
-- Python 3.5+
+- Python 3.5+ or PyPy3.5
 - Pip
 
-### Setup
+## Development
 
 ```bash
 python3 -m venv ./venv
@@ -107,8 +105,7 @@ Pokédex migrations to your existing `alembic.ini` file. This will allow your
 migrations to depend on Pokédex migrations, and will run the Pokédex migrations
 alongside your own with `alembic upgrade heads`. To do this, add the resource
 identifier for the Pokédex migration version location to [`version_locations` in
-your
-`alembic.ini`](http://alembic.zzzcomputing.com/en/latest/branches.html#setting-up-multiple-version-directories):
+your `alembic.ini`][alembic-versions]:
 
 ```ini
 # version location specification; this defaults
@@ -128,6 +125,16 @@ to the constructor.
 Copyright © 2018 Jesse B. Hannah. Licensed under the terms of the MIT License
 (see [LICENSE](LICENSE)).
 
-"Pokémon" and all character names and game data are copyright © The Pokémon
-Company International, and are used in this project for **information purposes
-only**, which is believed to be covered as fair use under US copyright law.
+"Pokémon" and all character names and game data are copyright © [The Pokémon
+Company International][tpci], and are used in this project for **information
+purposes only**, which is believed to be covered as fair use under US
+copyright law.
+
+[travis-badge]: https://travis-ci.org/thetallgrassnet/ttgn.pokedex.svg?branch=master
+[travis]: https://travis-ci.org/thetallgrassnet/ttgn.pokedex
+[coveralls-badge]: https://coveralls.io/repos/github/thetallgrassnet/ttgn.pokedex/badge.svg?branch=master
+[coveralls]: https://coveralls.io/github/thetallgrassnet/ttgn.pokedex?branch=master
+[codeclimate-badge]: https://api.codeclimate.com/v1/badges/1036c05a50abb42d3335/maintainability
+[codeclimate]: https://codeclimate.com/github/thetallgrassnet/ttgn.pokedex/maintainability
+[alembic-versions]: http://alembic.zzzcomputing.com/en/latest/branches.html#setting-up-multiple-version-directories
+[tpci]: https://www.pokemon.com
