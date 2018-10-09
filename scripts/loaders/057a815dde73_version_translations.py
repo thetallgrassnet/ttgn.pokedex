@@ -13,7 +13,7 @@ class VeekunVersionTranslationsSource(VeekunSource):
 
     @property
     def fieldnames(self):
-        """Add id to the list of fieldnames."""
+        """Add ``id`` to the list of fieldnames from the source data."""
         return ['id', *super().fieldnames]
 
     def _map_rows(self, rows):

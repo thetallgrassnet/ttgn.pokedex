@@ -48,10 +48,29 @@ VALUE_MAPPINGS = {
         '30': '28',
     }
 }
+"""dict of str: dict of str: str: Mappings of value differences between
+Veekun and ttgn.pokedex data."""
 
 
 class VeekunSource(BaseSource):
-    """Veekun CSV data source for external data."""
+    """Veekun CSV data source for external data.
+
+    Parameters
+    ----------
+    table : str
+        Name of Veekun table that contains the source data.
+    ref : str, optional
+        Git ref of the version of the data to retrieve. Defaults to
+        ``master``.
+
+    Attributes
+    ----------
+    url : str
+        URL to the raw CSV file on GitHub containing the source data.
+    value_mapped_fields : list of str
+        List of fields for which value mapping should be performed.
+
+    """
     __sourcename__ = 'veekun'
 
     def __init__(self, table, ref='master'):
@@ -61,7 +80,23 @@ class VeekunSource(BaseSource):
         self.value_mapped_fields = self.fieldnames & VALUE_MAPPINGS.keys()
 
     def _map_rows(self, rows):
-        """Perform known data mappings."""
+        """Perform known data mappings and yield mapped rows of data.
+
+        If a value is encountered for which no mapping exists, continue on to
+        the next row from the source data. The row will be excluded from the
+        resulting data migration.
+
+        Parameters
+        ----------
+        rows : iterable of dict of str: str
+            CSV-parsed rows of data from the source file.
+
+        Yields
+        ------
+        row : dict of str: str
+            Row of value-mapped CSV-parsed data.
+
+        """
         for row in rows:
             try:
                 for field in self.value_mapped_fields:
@@ -76,6 +111,13 @@ class VeekunSource(BaseSource):
         return urlopen(self.url)
 
     def _transform_data(self, data):
-        """Convert each binary line to a Unicode string."""
+        """Convert each binary line to a Unicode string.
+
+        Yields
+        ------
+        line : str
+            UTF-8 encoded CSV-formatted line of data from the source file.
+
+        """
         for line in data:
             yield line.decode('utf-8')

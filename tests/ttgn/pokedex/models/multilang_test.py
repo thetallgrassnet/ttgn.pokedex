@@ -25,8 +25,8 @@ class TestLanguage:
         property."""
 
         def test_subtag_language_only(self, pokedex):
-            """Test that the correct subtag with only the language identifier is
-            returned."""
+            """Test that the correct subtag with only the language identifier
+            is returned."""
             en_ = pokedex.query(Language).get(5)
             assert en_.subtag == 'en'
 

@@ -13,7 +13,22 @@ from ttgn.pokedex.utils import snake_case
 
 class Language(Base):
     """Model representing an IANA language subtag for translation
-    identification."""
+    identification.
+
+    Attributes
+    ----------
+    order : int
+        Display order for the listed language.
+    language : str
+        2- or 3-character IANA language code.
+    script : str
+        IANA script code.
+    region : str
+        2-character IANA region code.
+    variant : str
+        IANA variant code.
+
+    """
     order = sa.Column(sa.Integer, nullable=False, unique=True)
     language = sa.Column(sa.String(3), nullable=False)
     script = sa.Column(sa.String(8))
@@ -22,7 +37,7 @@ class Language(Base):
 
     @hybrid_property
     def subtag(self):
-        """Combines the subtag components into a valid IANA language subtag."""
+        """str: Unique, valid IANA subtag for the `Language` instance."""
         return '-'.join(
             k for k in [self.language, self.script, self.region, self.variant]
             if k is not None)
@@ -30,7 +45,7 @@ class Language(Base):
     # pylint: disable=no-self-argument,singleton-comparison
     @subtag.expression
     def subtag(cls):
-        """Enables querying the Language model by subtag values."""
+        """Enables querying the `Language` model by subtag values."""
         return cls.language + \
             case([(cls.script != None, '-' + cls.script)], else_='') + \
             case([(cls.region != None, '-' + cls.region)], else_='') + \
@@ -40,10 +55,22 @@ class Language(Base):
         return self.subtag
 
 
-def with_translations(**kwargs):
-    """Decorator that creates a translation table for the decorated model with
-    the given columns, and creates relationships and association proxies for
-    the translated columns."""
+def with_translations(**columns):
+    """Decorator that creates a translations table for the decorated model.
+
+    Creates a table mapped to a ``ModelTranslations`` class (given a
+    decorated model class ``Model``) containing the provided `**columns`,
+    with references to the :cls:`.Language` and the decorated model. On the
+    decorated model, creates an association proxy for each translated field
+    that returns a dict of translations mapped by :attr:`~.Language.subtag`.
+
+    Parameters
+    ----------
+    **columns : dict of str: sqlalchemy.Column
+        Translatable columns to create in the translations table, typically
+        of the :cls:`sqlalchemy.Unicode` type.
+
+    """
 
     def decorator(cls):
         Translations = type('{}Translation'.format(cls.__name__), (Base, ), {})
@@ -53,7 +80,7 @@ def with_translations(**kwargs):
             collection_class=attribute_mapped_collection('subtag'))(
                 Translations)
         Translations = belongs_to(
-            Language, name='local_language', backref_name=None)(Translations)
+            Language, name='local_language', backref_name=False)(Translations)
         Translations.__table__.append_constraint(
             sa.UniqueConstraint('{}_id'.format(snake_case(cls.__name__)),
                                 'local_language_id'))
@@ -61,7 +88,7 @@ def with_translations(**kwargs):
         setattr(Translations, 'subtag',
                 association_proxy('local_language', 'subtag'))
 
-        for attr, column in kwargs.items():
+        for attr, column in columns.items():
             if not isinstance(column, sa.Column):
                 raise TypeError(
                     '{} expected to be a sqlalchemy.Column, was {}'.format(

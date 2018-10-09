@@ -13,7 +13,16 @@ from ttgn.pokedex.utils import import_string
 
 def load_data_migrations(rev, direction):
     """Loads and performs data migrations for a given revision and
-    direction."""
+    direction.
+
+    Parameters
+    ----------
+    rev : str
+        Alembic revision identifier to find migrations for.
+    direction : str
+        Alembic migration direction to find migrations for.
+
+    """
     data_migrations = filter(
         lambda f: match(r'{}_{}_.*\.csv'.format(rev, direction), f),
         resource_listdir('ttgn.pokedex', 'migrations/data'))
@@ -70,7 +79,25 @@ def _import_model(model_path):
 
 
 class MigrationReader:
-    """Parse a data migration to get the model, operation, and data."""
+    """Parse a data migration to get the model, operation, and data.
+
+    Parameters
+    ----------
+    filename : str
+        Filename of the data migration to read.
+
+
+    Attributes
+    ----------
+    operation : {'insert', 'update', 'delete'}
+        SQL operation to perform with the data in the migration file.
+    model : str
+        Path within the ``ttgn.pokedex.models`` package to the model class
+        represented by the data in the migration file.
+    filename : str
+        Filename of the data migration.
+
+    """
 
     def __init__(self, filename):
         _match = match(
@@ -83,8 +110,20 @@ class MigrationReader:
         self.filename = filename
 
     def read_migration(self):
-        """Return the migration model, operation, and data."""
-        return (self.model, self.operation, list(self._reader))
+        """Return the migration model, operation, and data.
+
+        Returns
+        -------
+        model : str
+            Path within the ``ttgn.pokedex.models`` package to the mdoel
+            class represented by the data in the migration file.
+        operation : {'insert', 'update', 'delete'}
+            SQL operation to perform with the data in the migration file.
+        rows : list of dict
+            CSV-parsed rows of data read from the migration file.
+
+        """
+        return self.model, self.operation, list(self._reader)
 
     @property
     def _reader(self):

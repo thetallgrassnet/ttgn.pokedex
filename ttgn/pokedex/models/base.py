@@ -11,8 +11,28 @@ _INFLECTOR = inflector()
 
 
 def _backref_factory(name, cls, **kwargs):
-    if name is None:
-        return name
+    """Generates a SQLAlchemy relationship back reference to `cls`.
+
+    Parameters
+    ----------
+    name : bool or str
+        Name of the back reference. If False, no back reference will be
+        generated. If True, uses the
+        :attr:`~ttgn.pokedex.models.base.Base.__pluralname__` of `cls`.
+    cls : ttgn.pokedex.models.base.Base
+        Model to which the back reference will point.
+    **kwargs
+        Additional arguments to pass to :func:`sqlalchemy.orm.backref`.
+
+    Returns
+    -------
+    tuple or None
+        Return value of :func:`sqlalchemy.orm.backref`, or None if `name` is
+        False.
+
+    """
+    if not name:
+        return None
 
     name = cls.__pluralname__ if name is True else name
     return backref(name, **kwargs)
@@ -20,11 +40,25 @@ def _backref_factory(name, cls, **kwargs):
 
 def belongs_to(target, name=None, backref_name=True, **backref_args):
     """Decorator that creates a foreign key column and relationship on the
-    decorated class pointing to the target class.
+    decorated (child) class pointing to the target (parent) class.
 
-    If a name or backref parameter are not provided, the name of the target
-    class and the pluralized name of the decorated class are used to generate
-    the relationship and backref name respectively."""
+    Parameters
+    ----------
+    target : ttgn.pokedex.models.base.Base
+        Parent class in the `belongs_to` relationship.
+    name : str, optional
+        Name of the relationship on the child class. Defaults to the
+        :func:`~ttgn.pokedex.utils.snake_case` formatted name of the `target`
+        class.
+    backref_name : bool or str, optional
+        Name of the relationship on the parent class, created with
+        :func:`sqlalchemy.orm.backref`. If True, defaults to the
+        :attr:`~ttgn.pokedex.models.base.Base.__pluralname__` of the child
+        class.
+    **backref_args
+        Additional arguments passed to :func:`sqlalchemy.orm.backref`.
+
+    """
 
     def decorator(cls):
         _name = snake_case(target.__name__) if name is None else name
@@ -49,12 +83,21 @@ def belongs_to(target, name=None, backref_name=True, **backref_args):
 
 
 class Base:
-    """Base class for SQLAlchemy declarative base."""
+    """Base class for SQLAlchemy declarative base.
+
+    Attributes
+    ----------
+    id_ : int
+        Primary key, mapped to the ``id`` column of the table.
+
+    """
     id_ = sa.Column('id', sa.Integer, primary_key=True)
 
     @declarative.declared_attr
     def __pluralname__(cls):
         # pylint: disable=no-self-argument
+        """str: The :func:`~ttgn.pokedex.utils.snake_case` formatted plural
+        form of the class name."""
         name = snake_case(cls.__name__).rsplit('_', 1)
         name.append(_INFLECTOR.plural(name.pop()))
         return '_'.join(name)
@@ -62,8 +105,8 @@ class Base:
     @declarative.declared_attr
     def __tablename__(cls):
         # pylint: disable=no-self-argument
-        """Generate the table name from the full module path of a model
-        class."""
+        """str: Table name, generated from the module path and
+        :attr:`.__pluralname__` of the model class."""
         return "{}_{}".format(
             cls.__module__.replace('.', '_'), cls.__pluralname__)
 

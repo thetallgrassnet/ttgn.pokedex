@@ -7,7 +7,14 @@ from ttgn.pokedex.models.multilang import with_translations
 
 
 class Generation(Base):
-    """Model representing a core-series game generation."""
+    """Model representing a core-series game generation.
+
+    Attributes
+    ----------
+    version_groups : list of .VersionGroup
+    versions : list of .Version
+
+    """
 
     def __str__(self):
         return 'Generation {}'.format(self.id_)
@@ -16,7 +23,14 @@ class Generation(Base):
 @belongs_to(Generation)
 class VersionGroup(Base):
     """Model representing a group of versions within a core-series
-    generation."""
+    generation.
+
+    Attributes
+    ----------
+    generation : .Generation
+    versions : list of .Version
+
+    """
 
     def __str__(self):
         return ''.join([v.acronym for v in self.versions])
@@ -25,7 +39,18 @@ class VersionGroup(Base):
 @belongs_to(VersionGroup)
 @with_translations(name=sa.Column(sa.Unicode, nullable=False))
 class Version(Base):
-    """Model representing a core-series game version."""
+    """Model representing a core-series game version.
+
+    Attributes
+    ----------
+    acronym : str
+        Unique acronym for the version.
+    name : dict of str: str
+        Translated version names.
+    generation : .Generation
+    version_group : .VersionGroup
+
+    """
     acronym = sa.Column(sa.String(2), nullable=False, unique=True)
 
     generation = relationship(

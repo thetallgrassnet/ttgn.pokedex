@@ -2,15 +2,42 @@
 
 
 def snake_case(name):
-    """Converts a CamelCase string to snake_case."""
+    """Converts a CamelCase string to snake_case.
+
+    Parameters
+    ----------
+    name : str
+
+    Returns
+    -------
+    str
+
+    """
     import re
     sub_1 = re.sub(r'(.)([A-Z][a-z]+)', r'\1_\2', name)
     return re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', sub_1).lower()
 
 
 def import_string(dotted_path):
-    """Import a dotted module path and return the entity designated by the last
-    name in the path."""
+    """Import a module by its fully-qualified Python path and return the
+    entity designated by the last name in the path.
+
+    Parameters
+    ----------
+    dotted_path : str
+        The fully-qualified path to an entity, e.g. ``package.module.attr``.
+
+    Returns
+    -------
+    object
+
+    Raises
+    ------
+    ImportError
+        If a malformed module path, or a module path that doesn't resolve to
+        an importable entity, is passed as `dotted_path`.
+
+    """
     try:
         module_path, class_name = dotted_path.rsplit('.', 1)
     except ValueError:
