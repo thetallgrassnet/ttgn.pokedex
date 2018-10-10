@@ -62,7 +62,7 @@ class Pokedex:
         """Perform a single query against the database.
 
         All arguments are passed along to
-        `sqlalchemy.orm.session.Session.query()`.
+        :meth:`sqlalchemy.orm.session.Session.query()`.
 
         Returns
         -------
@@ -83,7 +83,7 @@ class Pokedex:
 
         Yields
         ------
-        sqlalchemy.orm.session.Session
+        :class:`sqlalchemy.orm.session.Session`
 
         Notes
         -----

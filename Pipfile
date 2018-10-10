@@ -4,4 +4,4 @@ verify_ssl = true
 name = "pypi"
 
 [dev-packages]
-"ttgn.pokedex" = {editable = true, path = ".", extras = ["testing", "development"]}
+"ttgn.pokedex" = {editable = true, extras = ["development", "testing"], path = "."}

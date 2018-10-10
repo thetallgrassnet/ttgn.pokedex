@@ -11,8 +11,8 @@ class Generation(Base):
 
     Attributes
     ----------
-    version_groups : list of .VersionGroup
-    versions : list of .Version
+    version_groups : :obj:`list` of :class:`.VersionGroup`
+    versions : :obj:`list` of :class:`.Version`
 
     """
 
@@ -28,7 +28,7 @@ class VersionGroup(Base):
     Attributes
     ----------
     generation : .Generation
-    versions : list of .Version
+    versions : :obj:`list` of :class:`.Version`
 
     """
 
@@ -45,8 +45,9 @@ class Version(Base):
     ----------
     acronym : str
         Unique acronym for the version.
-    name : dict of str: str
-        Translated version names.
+    name : :obj:`dict` of :obj:`str`: :obj:`str`
+        Translated version names, mapped by
+        :attr:`~ttgn.pokedex.models.multilang.Language.subtag`.
     generation : .Generation
     version_group : .VersionGroup
 

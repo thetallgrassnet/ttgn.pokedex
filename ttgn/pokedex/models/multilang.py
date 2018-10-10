@@ -27,6 +27,8 @@ class Language(Base):
         2-character IANA region code.
     variant : str
         IANA variant code.
+    name : :obj:`dict` of :obj:`str`: :class:`.LanguageTranslation`
+        Translated language names mapped by :attr:`~.Language.subtag`.
 
     """
     order = sa.Column(sa.Integer, nullable=False, unique=True)
@@ -42,10 +44,9 @@ class Language(Base):
             k for k in [self.language, self.script, self.region, self.variant]
             if k is not None)
 
-    # pylint: disable=no-self-argument,singleton-comparison
+    # pylint: disable=missing-docstring,no-self-argument,singleton-comparison
     @subtag.expression
     def subtag(cls):
-        """Enables querying the `Language` model by subtag values."""
         return cls.language + \
             case([(cls.script != None, '-' + cls.script)], else_='') + \
             case([(cls.region != None, '-' + cls.region)], else_='') + \
@@ -60,15 +61,15 @@ def with_translations(**columns):
 
     Creates a table mapped to a ``ModelTranslations`` class (given a
     decorated model class ``Model``) containing the provided `**columns`,
-    with references to the :cls:`.Language` and the decorated model. On the
+    with references to the :class:`.Language` and the decorated model. On the
     decorated model, creates an association proxy for each translated field
     that returns a dict of translations mapped by :attr:`~.Language.subtag`.
 
     Parameters
     ----------
-    **columns : dict of str: sqlalchemy.Column
+    **columns : :obj:`dict` of :obj:`str`: :class:`sqlalchemy.schema.Column`
         Translatable columns to create in the translations table, typically
-        of the :cls:`sqlalchemy.Unicode` type.
+        of the :class:`sqlalchemy.types.Unicode` type.
 
     """
 

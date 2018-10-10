@@ -44,7 +44,7 @@ def belongs_to(target, name=None, backref_name=True, **backref_args):
 
     Parameters
     ----------
-    target : ttgn.pokedex.models.base.Base
+    target : .BaseClass
         Parent class in the `belongs_to` relationship.
     name : str, optional
         Name of the relationship on the child class. Defaults to the
@@ -53,8 +53,8 @@ def belongs_to(target, name=None, backref_name=True, **backref_args):
     backref_name : bool or str, optional
         Name of the relationship on the parent class, created with
         :func:`sqlalchemy.orm.backref`. If True, defaults to the
-        :attr:`~ttgn.pokedex.models.base.Base.__pluralname__` of the child
-        class.
+        :attr:`~ttgn.pokedex.models.base.BaseClass.__pluralname__` of the
+        child class.
     **backref_args
         Additional arguments passed to :func:`sqlalchemy.orm.backref`.
 
@@ -82,16 +82,11 @@ def belongs_to(target, name=None, backref_name=True, **backref_args):
     return decorator
 
 
-class Base:
-    """Base class for SQLAlchemy declarative base.
+class BaseClass:
+    """Base class for SQLAlchemy declarative base."""
 
-    Attributes
-    ----------
-    id_ : int
-        Primary key, mapped to the ``id`` column of the table.
-
-    """
     id_ = sa.Column('id', sa.Integer, primary_key=True)
+    """int: Primary key, mapped to the ``id`` column of the table."""
 
     @declarative.declared_attr
     def __pluralname__(cls):
@@ -111,4 +106,4 @@ class Base:
             cls.__module__.replace('.', '_'), cls.__pluralname__)
 
 
-Base = declarative.declarative_base(cls=Base)
+Base = declarative.declarative_base(cls=BaseClass)
