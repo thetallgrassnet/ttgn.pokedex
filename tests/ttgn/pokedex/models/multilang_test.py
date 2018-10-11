@@ -1,10 +1,6 @@
 # pylint: disable=no-self-use
 """Test the ttgn.pokedex.models.multilang module."""
-import pytest
-
-from ttgn.pokedex.models.base import Base
-from ttgn.pokedex.models.multilang import (Language, LanguageTranslation,
-                                           with_translations)
+from ttgn.pokedex.models.multilang import Language, LanguageTranslation
 
 
 class TestLanguage:
@@ -60,20 +56,3 @@ class TestLanguage:
             property."""
             en_ = pokedex.query(Language).get(5)
             assert en_.name['zh-hans'] == '英语'
-
-
-class TestWithTranslations:
-    """Test the ttgn.pokedex.models.multilang.with_translations decorator."""
-
-    def test_with_translation_type_error(self):
-        """Tests that all arguments to with_translation must be instances of
-        sqlalchemy.Column."""
-
-        class TestModel(Base):
-            """Test model."""
-            pass
-
-        with pytest.raises(TypeError) as error:
-            with_translations(name='foobar')(TestModel)
-        assert str(error.value) == \
-            'name expected to be a sqlalchemy.Column, was foobar'

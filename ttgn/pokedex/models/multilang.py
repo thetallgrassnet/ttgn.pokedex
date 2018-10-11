@@ -74,7 +74,8 @@ def with_translations(**columns):
     """
 
     def decorator(cls):
-        Translations = type('{}Translation'.format(cls.__name__), (Base, ), {})
+        Translations = type('{}Translation'.format(cls.__name__), (Base, ),
+                            columns)
         Translations = belongs_to(
             cls,
             backref_name='translations',
@@ -89,13 +90,7 @@ def with_translations(**columns):
         setattr(Translations, 'subtag',
                 association_proxy('local_language', 'subtag'))
 
-        for attr, column in columns.items():
-            if not isinstance(column, sa.Column):
-                raise TypeError(
-                    '{} expected to be a sqlalchemy.Column, was {}'.format(
-                        attr, column))
-
-            setattr(Translations, attr, column)
+        for attr in columns:
             setattr(cls, attr, association_proxy('translations', attr))
 
         setattr(sys.modules[cls.__module__], Translations.__name__,
